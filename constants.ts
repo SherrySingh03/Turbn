@@ -1,4 +1,4 @@
-import { Language, Translation, TurbanStyle } from './types';
+import { Language, Translation } from './types';
 
 export const TRANSLATIONS: Record<Language, Translation> = {
     en: {
@@ -27,13 +27,31 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         errorSuggestions: 'Could not generate suggestions. Please try again.',
         errorImageGeneration: 'Could not generate image. Please try again.',
         selectTurban: 'Select Turban Color',
-        selectTurbanStyle: 'Select Turban Style',
         saved: 'Look saved!',
         shared: 'Link copied to clipboard!',
         language: 'Language',
         editColors: 'Edit Colors',
         startOver: 'Start Over',
         yourOutfit: 'Your Outfit',
+        savedLooks: 'Saved Looks',
+        noSavedLooks: "You haven't saved any looks yet.",
+        noSavedLooksCTA: 'Go back and create your first look!',
+        deleteLook: 'Delete Look',
+        generatingSuggestionsTitle: "Finding color harmonies...",
+        generatingSuggestionsMessages: [
+            "Consulting the color wheel...",
+            "Analyzing complementary shades...",
+            "Finding the perfect balance...",
+            "Crafting stylish palettes...",
+        ],
+        generatingLookTitle: "Bringing your vision to life...",
+        generatingLookMessages: [
+            "Weaving your digital turban...",
+            "Tailoring the perfect outfit...",
+            "Adding the final touches...",
+            "Capturing your unique style...",
+            "Almost ready for the spotlight!",
+        ],
     },
     pa: {
         appName: 'Turbn',
@@ -61,13 +79,31 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         errorSuggestions: 'ਸੁਝਾਅ ਤਿਆਰ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕੇ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
         errorImageGeneration: 'ਚਿੱਤਰ ਤਿਆਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
         selectTurban: 'ਦਸਤਾਰ ਦਾ ਰੰਗ ਚੁਣੋ',
-        selectTurbanStyle: 'ਦਸਤਾਰ ਦੀ ਸ਼ੈਲੀ ਚੁਣੋ',
         saved: 'ਲੁੱਕ ਸੇਵ ਹੋ ਗਿਆ!',
         shared: 'ਲਿੰਕ ਕਲਿੱਪਬੋਰਡ ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ!',
         language: 'ਭਾਸ਼ਾ',
         editColors: 'ਰੰਗ ਸੰਪਾਦਿਤ ਕਰੋ',
         startOver: 'ਨਵਾਂ ਸ਼ੁਰੂ ਕਰੋ',
         yourOutfit: 'ਤੁਹਾਡਾ ਪਹਿਰਾਵਾ',
+        savedLooks: 'ਸੇਵ ਕੀਤੇ ਲੁੱਕ',
+        noSavedLooks: 'ਤੁਸੀਂ ਹਾਲੇ ਤੱਕ ਕੋਈ ਲੁੱਕ ਸੇਵ ਨਹੀਂ ਕੀਤਾ ਹੈ।',
+        noSavedLooksCTA: 'ਵਾਪਸ ਜਾਓ ਅਤੇ ਆਪਣਾ ਪਹਿਲਾ ਲੁੱਕ ਬਣਾਓ!',
+        deleteLook: 'ਲੁੱਕ ਮਿਟਾਓ',
+        generatingSuggestionsTitle: "ਰੰਗਾਂ ਦੀ ਇਕਸੁਰਤਾ ਲੱਭ ਰਿਹਾ ਹੈ...",
+        generatingSuggestionsMessages: [
+            "ਰੰਗ ਚੱਕਰ ਨਾਲ ਸਲਾਹ-ਮਸ਼ਵਰਾ...",
+            "ਪੂਰਕ ਸ਼ੇਡਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ...",
+            "ਸੰਪੂਰਨ ਸੰਤੁਲਨ ਲੱਭਣਾ...",
+            "ਸਟਾਈਲਿਸ਼ ਪੈਲੇਟ ਤਿਆਰ ਕਰਨਾ...",
+        ],
+        generatingLookTitle: "ਤੁਹਾਡੇ ਦ੍ਰਿਸ਼ਟੀਕੋਣ ਨੂੰ ਜੀਵਨ ਵਿੱਚ ਲਿਆ ਰਿਹਾ ਹੈ...",
+        generatingLookMessages: [
+            "ਤੁਹਾਡੀ ਡਿਜੀਟਲ ਦਸਤਾਰ ਬੁਣ ਰਿਹਾ ਹੈ...",
+            "ਸੰਪੂਰਨ ਪਹਿਰਾਵਾ ਤਿਆਰ ਕਰਨਾ...",
+            "ਅੰਤਿਮ ਛੋਹਾਂ ਜੋੜਨਾ...",
+            "ਤੁਹਾਡੀ ਵਿਲੱਖਣ ਸ਼ੈਲੀ ਨੂੰ ਕੈਪਚਰ ਕਰਨਾ...",
+            "ਸਪਾਟਲਾਈਟ ਲਈ ਲਗਭਗ ਤਿਆਰ!",
+        ],
     },
 };
 
@@ -106,13 +142,6 @@ export const COMMON_PANTS_COLORS = [
     { name: 'Burgundy', hex: '#800020' },
     { name: 'Stone', hex: '#8B8C7A' },
     { name: 'Charcoal', hex: '#36454F' },
-];
-
-export const TURBAN_STYLES: TurbanStyle[] = [
-    { id: 'dastar', name: 'Modern Dastar', imageUrl: 'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?w=200&h=200&fit=crop' },
-    { id: 'patiala_shahi', name: 'Patiala Shahi', imageUrl: 'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?w=200&h=200&fit=crop' },
-    { id: 'dumalla', name: 'Dumalla', imageUrl: 'https://images.unsplash.com/photo-1615995219369-6b14be7759de?w=200&h=200&fit=crop' },
-    { id: 'patka', name: 'Sporty Patka', imageUrl: 'https://images.unsplash.com/photo-1616188342452-0744130d84a4?w=200&h=200&fit=crop' },
 ];
 
 // Conceptually, this acts as our 'assets' folder for the landing page visuals

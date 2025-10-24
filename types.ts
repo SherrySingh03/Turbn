@@ -26,13 +26,20 @@ export interface Translation {
     errorSuggestions: string;
     errorImageGeneration: string;
     selectTurban: string;
-    selectTurbanStyle: string;
     saved: string;
     shared: string;
     language: string;
     editColors: string;
     startOver: string;
     yourOutfit: string;
+    savedLooks: string;
+    noSavedLooks: string;
+    noSavedLooksCTA: string;
+    deleteLook: string;
+    generatingSuggestionsTitle: string;
+    generatingSuggestionsMessages: string[];
+    generatingLookTitle: string;
+    generatingLookMessages: string[];
 }
 
 export interface OutfitColors {
@@ -45,10 +52,4 @@ export interface TurbanSuggestion {
     colorName: string;
     hexCode: string;
     reason: string;
-}
-
-export interface TurbanStyle {
-    id: string;
-    name: string;
-    imageUrl: string;
 }

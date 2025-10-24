@@ -5,13 +5,19 @@ import { Toaster } from 'react-hot-toast';
 import { Language, Translation } from './types';
 import { TRANSLATIONS } from './constants';
 import Header from './components/Header';
+import SavedLooksScreen from './components/SavedLooksScreen';
 
 const App: React.FC = () => {
-    const [currentScreen, setCurrentScreen] = useState<'landing' | 'main'>('landing');
+    const [currentScreen, setCurrentScreen] = useState<'landing' | 'main' | 'saved'>('landing');
     const [language, setLanguage] = useState<Language>('en');
 
     const t = useCallback((key: keyof Translation) => {
-        return TRANSLATIONS[language][key];
+        const value = TRANSLATIONS[language][key];
+        // Ensure we always return a string for components expecting it.
+        if (Array.isArray(value)) {
+            return String(value[0] || '');
+        }
+        return String(value);
     }, [language]);
 
     const handleGetStarted = () => {
@@ -21,6 +27,10 @@ const App: React.FC = () => {
     const goToHome = () => {
         setCurrentScreen('landing');
     };
+
+    const goToSaved = () => {
+        setCurrentScreen('saved');
+    }
     
     // Auto-delete saved images from localStorage after 24 hours
     useEffect(() => {
@@ -34,14 +44,23 @@ const App: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-stone-100 text-gray-900 antialiased">
-            <Toaster position="top-center" reverseOrder={false} />
-             <Header language={language} setLanguage={setLanguage} t={t} onHomeClick={goToHome} />
+        <div className="min-h-screen text-slate-800 antialiased">
+            <Toaster position="top-center" reverseOrder={false} toastOptions={{
+                style: {
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    color: '#1e293b', // slate-800
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    backdropFilter: 'blur(16px)',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }
+            }}/>
+             <Header language={language} setLanguage={setLanguage} t={t} onHomeClick={goToHome} onSavedClick={goToSaved} />
             <main>
                 {currentScreen === 'landing' && (
                     <LandingScreen onGetStarted={handleGetStarted} t={t} />
                 )}
-                {currentScreen === 'main' && <MainScreen t={t} />}
+                {currentScreen === 'main' && <MainScreen t={t} language={language} />}
+                {currentScreen === 'saved' && <SavedLooksScreen t={t} />}
             </main>
         </div>
     );

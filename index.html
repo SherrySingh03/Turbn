@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-g">
+    <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Turbn</title>
@@ -11,20 +11,25 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A fallback color */
+            /* A soft, ambient gradient that makes the glass effect pop */
+            background-image: radial-gradient(circle at 1% 1%, rgba(224, 239, 255, 0.8), transparent 50%),
+                              radial-gradient(circle at 99% 99%, rgba(255, 224, 239, 0.8), transparent 50%);
+            min-height: 100vh;
         }
         /* Custom scrollbar for a polished look */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(255, 255, 255, 0.1);
         }
         ::-webkit-scrollbar-thumb {
-            background: #888;
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: rgba(0, 0, 0, 0.3);
         }
         
         /* Global Animations */
@@ -36,11 +41,10 @@
             animation: fade-in 0.5s ease-out forwards;
         }
 
-        @keyframes float-up {
-            0% { transform: translateY(110vh) rotate(-5deg); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(5deg); opacity: 0; }
+        /* Renamed and updated for a seamless, continuous scroll from the start */
+        @keyframes endless-scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); } /* Loops perfectly because the content is duplicated */
         }
     </style>
 <script type="importmap">
@@ -55,7 +59,7 @@
 }
 </script>
 </head>
-<body class="bg-stone-100 text-gray-800">
+<body class="text-slate-800">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>
