@@ -32,6 +32,9 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
                     .animate-float-3 { animation: float-up 20s linear infinite 10s; }
                     .animate-float-4 { animation: float-up 35s linear infinite 15s; }
                     .animate-float-5 { animation: float-up 28s linear infinite 2s; }
+                    .animate-float-6 { animation: float-up 22s linear infinite 8s; }
+                    .animate-float-7 { animation: float-up 32s linear infinite 12s; }
+                    .animate-float-8 { animation: float-up 26s linear infinite 18s; }
                 `}
             </style>
             
@@ -40,6 +43,9 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
             <FloatingImage imageUrl={images[2]} animationClass="animate-float-3" className="w-48 h-72 top-0 left-[55%]" />
             <FloatingImage imageUrl={images[3]} animationClass="animate-float-4" className="w-36 h-52 top-0 left-[80%]" />
             <FloatingImage imageUrl={images[4]} animationClass="animate-float-5" className="w-28 h-40 top-0 left-[95%]" />
+            <FloatingImage imageUrl={images[5]} animationClass="animate-float-6" className="w-32 h-48 top-0 left-[15%]" />
+            <FloatingImage imageUrl={images[6]} animationClass="animate-float-7" className="w-40 h-60 top-0 left-[45%]" />
+            <FloatingImage imageUrl={images[7]} animationClass="animate-float-8" className="w-36 h-52 top-0 left-[70%]" />
 
             <div className="relative z-10 text-center p-8 bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl max-w-lg mx-4">
                 <h2 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">

@@ -53,7 +53,8 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
     const prompt = `
         Given a shirt color of ${colors.shirtColor} and pants color of ${colors.pantsColor}, suggest the top 4 best matching turban colors based on color theory.
         Rank them from 1 to 4 (best to worst).
-        For each suggestion, provide a short, stylish, and convincing reason (max 12 words) for why it's a great match. For example: "Creates a bold, high-contrast look that exudes confidence." or "Offers a sophisticated, harmonious blend for an elegant style."
+        For each suggestion, provide a very short, persuasive, and stylish reason (max 10 words) for why it's a great match.
+        Examples: "A timeless, high-contrast power look." or "Creates an elegant, harmonious vibe."
         Return the result as a JSON array of objects, where each object has 'rank', 'colorName', 'hexCode', and 'reason' properties.
     `;
 
@@ -91,7 +92,7 @@ export const recolorTurban = async (file: Blob, newColor: string, turbanStyle: s
             parts: [
                 imagePart,
                 { text: `From the image provided, change the turban's color to exactly ${newColor}.
-                Most importantly, the turban MUST be tied in a ${turbanStyle} style. This is a critical instruction.
+                HIGHEST PRIORITY: The turban MUST be tied in a classic ${turbanStyle} style. It is absolutely essential that the final image accurately represents a ${turbanStyle} turban. This is the most important part of the request. Do not fail on this instruction.
                 Do NOT change the person's face, skin tone, background, or clothing. The final image must preserve the original photo's realism, including shadows and lighting on the turban. Only alter the turban's color and tying style to precisely match the request.` }
             ]
         },
@@ -124,7 +125,8 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
     const prompt = `
         Generate an aesthetic, modern, full-body portrait of a young Sikh man.
         He is wearing a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, and plain, solid-colored pants with the hex color ${colors.pantsColor}.
-        His turban must be a neat, stylish ${turbanStyle} turban with the hex color ${turbanColor}. It is absolutely essential that the turban style is a clear and accurate representation of a ${turbanStyle}. Adhering to the requested turban style is the most important part of this request.
+        His turban MUST be a neat, stylish ${turbanStyle} turban with the hex color ${turbanColor}.
+        HIGHEST PRIORITY: It is absolutely essential that the turban style is a clear and accurate representation of a ${turbanStyle}. Adhering to the requested turban style is the most important part of this request. Do not generate a generic turban; it must be a ${turbanStyle}.
         The setting is ${randomBackground}.
         The overall vibe should be elegant, modern, and visually pleasing. The man should have a gentle, confident expression. High-quality, photorealistic style.
     `;

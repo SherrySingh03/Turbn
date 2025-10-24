@@ -117,9 +117,14 @@ export const TURBAN_STYLES: TurbanStyle[] = [
 
 // Conceptually, this acts as our 'assets' folder for the landing page visuals
 export const LANDING_PAGE_IMAGES = [
-    'https://images.unsplash.com/photo-1616188342452-0744130d84a4?w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1615995219369-6b14be7759de?w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1575887277685-1539fdbd5e49?w=500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1616188342452-0744130d84a4?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1575887277685-1539fdbd5e49?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1620182420364-01344353495f?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1620182420363-3d36b535e6de?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1615995219369-6b14be7759de?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1631214083392-82f5b4f5e3e2?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1609102146985-5b1110433a04?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1574925206253-c57404d55383?q=80&w=800&auto=format&fit=crop',
 ];
