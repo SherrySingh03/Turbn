@@ -5,6 +5,7 @@ import { LANDING_PAGE_IMAGES } from '../constants';
 
 interface LandingScreenProps {
     onGetStarted: () => void;
+    // FIX: Corrected the type definition from 'key of' to 'keyof'.
     t: (key: keyof Translation) => string;
 }
 
@@ -35,6 +36,10 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
                     .animate-float-6 { animation: float-up 22s linear infinite 8s; }
                     .animate-float-7 { animation: float-up 32s linear infinite 12s; }
                     .animate-float-8 { animation: float-up 26s linear infinite 18s; }
+                    .animate-float-9 { animation: float-up 29s linear infinite 7s; }
+                    .animate-float-10 { animation: float-up 34s linear infinite 14s; }
+                    .animate-float-11 { animation: float-up 23s linear infinite 3s; }
+                    .animate-float-12 { animation: float-up 27s linear infinite 11s; }
                 `}
             </style>
             
@@ -46,6 +51,10 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
             <FloatingImage imageUrl={images[5]} animationClass="animate-float-6" className="w-32 h-48 top-0 left-[15%]" />
             <FloatingImage imageUrl={images[6]} animationClass="animate-float-7" className="w-40 h-60 top-0 left-[45%]" />
             <FloatingImage imageUrl={images[7]} animationClass="animate-float-8" className="w-36 h-52 top-0 left-[70%]" />
+            <FloatingImage imageUrl={images[8]} animationClass="animate-float-9" className="w-40 h-60 top-0 left-[20%]" />
+            <FloatingImage imageUrl={images[9]} animationClass="animate-float-10" className="w-32 h-48 top-0 left-[65%]" />
+            <FloatingImage imageUrl={images[10]} animationClass="animate-float-11" className="w-48 h-72 top-0 left-[85%]" />
+            <FloatingImage imageUrl={images[11]} animationClass="animate-float-12" className="w-36 h-52 top-0 left-[0%]" />
 
             <div className="relative z-10 text-center p-8 bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl max-w-lg mx-4">
                 <h2 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">

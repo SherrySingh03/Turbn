@@ -8,45 +8,29 @@ interface OutfitPreviewProps {
 const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor }) => {
     return (
         <div className="relative w-full h-full flex items-center justify-center p-2">
-            <svg viewBox="0 0 250 500" className="w-auto h-full max-h-[450px]">
-                <g id="mannequin-body">
-                    {/* Neck */}
-                    <path d="M105 50 C 105 20, 145 20, 145 50 L 140 80 L 110 80 Z" fill="#d4aa78" />
+            <svg viewBox="0 0 300 600" className="w-auto h-full max-h-[450px]">
+                <defs>
+                    <clipPath id="shirt-clip">
+                        <path d="M60,100 Q150,85 240,100 L260,200 L225,220 L225,350 L75,350 L75,220 L40,200 Z" />
+                    </clipPath>
+                    <clipPath id="pants-clip">
+                         <path d="M75,350 L225,350 L215,580 Q150,600 85,580 Z" />
+                    </clipPath>
+                </defs>
+                
+                {/* Mannequin Body */}
+                <g id="mannequin-base" fill="#E0E0E0" stroke="#BDBDBD" strokeWidth="1">
+                    {/* Head/Neck */}
+                    <path d="M125,0 C125,0 120,50 150,50 C180,50 175,0 175,0 Z" fill="#F5F5F5" stroke="#E0E0E0" />
+                    <rect x="135" y="50" width="30" height="40" fill="#F5F5F5" stroke="#E0E0E0" />
+                    {/* Body */}
+                    <path d="M60,100 Q150,85 240,100 L260,200 L215,580 Q150,600 85,580 L40,200 Z" />
                 </g>
-                <g id="pants">
-                    <path 
-                        d="M70 240 L 70 480 C 70 490, 80 500, 90 500 L 120 500 L 120 250 C 120 250, 100 230, 70 240 Z M130 250 L 130 500 L 160 500 C 170 500, 180 490, 180 480 L 180 240 C 150 230, 130 250, 130 250 Z" 
-                        fill={pantsColor} 
-                        stroke="#000000"
-                        strokeOpacity="0.1"
-                        strokeWidth="1"
-                    />
-                </g>
-                <g id="shirt">
-                    <path 
-                        d="M125 80 C 70 80, 50 100, 50 130 L 70 250 L 180 250 L 200 130 C 200 100, 180 80, 125 80 Z" 
-                        fill={shirtColor}
-                        stroke="#000000"
-                        strokeOpacity="0.1"
-                        strokeWidth="1"
-                    />
-                     {/* Left Sleeve */}
-                    <path 
-                        d="M50 130 C 30 140, 20 160, 25 180 L 50 200 L 70 180 C 60 160, 55 140, 50 130 Z"
-                        fill={shirtColor}
-                        stroke="#000000"
-                        strokeOpacity="0.1"
-                        strokeWidth="1"
-                    />
-                    {/* Right Sleeve */}
-                    <path
-                        d="M200 130 C 220 140, 230 160, 225 180 L 200 200 L 180 180 C 190 160, 195 140, 200 130 Z"
-                        fill={shirtColor}
-                        stroke="#000000"
-                        strokeOpacity="0.1"
-                        strokeWidth="1"
-                    />
-                </g>
+
+                {/* Clothing using Clip Paths for clean coloring */}
+                <rect x="0" y="0" width="300" height="600" fill={pantsColor} clipPath="url(#pants-clip)" />
+                <rect x="0" y="0" width="300" height="600" fill={shirtColor} clipPath="url(#shirt-clip)" />
+
             </svg>
         </div>
     );

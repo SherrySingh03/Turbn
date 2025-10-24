@@ -157,7 +157,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
                  <h2 className="text-3xl font-bold mb-4">{t('yourLook')}</h2>
                  <img src={generatedImage} alt="Generated Look" className="rounded-xl shadow-lg mx-auto mb-6 w-full" />
                  <div className="flex flex-wrap justify-center gap-4">
-                     <button onClick={handleGoBack} className="px-6 py-2 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition">Back</button>
+                     <button onClick={handleGoBack} className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100 transition">Back</button>
                      <button onClick={handleDownload} className="px-6 py-2 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition">{t('download')}</button>
                      <button onClick={handleSave} className="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">{t('saved')}</button>
                      <button onClick={reset} className="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition">{t('startOver')}</button>
