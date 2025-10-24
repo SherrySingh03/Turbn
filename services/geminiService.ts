@@ -1,4 +1,3 @@
-// FIX: Imported Modality to use the correct enum for responseModalities.
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { OutfitColors, TurbanSuggestion } from "../types";
 
@@ -8,7 +7,6 @@ if (!API_KEY) {
 }
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-// FIX: Changed parameter type from File to Blob to resolve a type error when calling this function with a Blob created from a data URL.
 const fileToGenerativePart = async (file: Blob) => {
     const base64EncodedDataPromise = new Promise<string>((resolve) => {
         const reader = new FileReader();
@@ -53,9 +51,10 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
 
 export const getTurbanSuggestions = async (colors: OutfitColors): Promise<TurbanSuggestion[]> => {
     const prompt = `
-        Given a shirt color of ${colors.shirtColor} and pants color of ${colors.pantsColor}, suggest 5 matching turban colors based on color theory (complementary, analogous, triadic).
-        For each suggestion, provide a brief, one-sentence reason for the match.
-        Return the result as a JSON array of objects, where each object has 'colorName', 'hexCode', and 'reason' properties.
+        Given a shirt color of ${colors.shirtColor} and pants color of ${colors.pantsColor}, suggest the top 4 best matching turban colors based on color theory.
+        Rank them from 1 to 4 (best to worst).
+        For each suggestion, provide a short, stylish, and convincing reason (max 12 words) for why it's a great match. For example: "Creates a bold, high-contrast look that exudes confidence." or "Offers a sophisticated, harmonious blend for an elegant style."
+        Return the result as a JSON array of objects, where each object has 'rank', 'colorName', 'hexCode', and 'reason' properties.
     `;
 
     const response = await ai.models.generateContent({
@@ -68,11 +67,12 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
                 items: {
                     type: Type.OBJECT,
                     properties: {
+                        rank: { type: Type.INTEGER },
                         colorName: { type: Type.STRING },
                         hexCode: { type: Type.STRING },
                         reason: { type: Type.STRING }
                     },
-                    required: ["colorName", "hexCode", "reason"]
+                    required: ["rank", "colorName", "hexCode", "reason"]
                 }
             }
         }
@@ -82,7 +82,6 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
     return JSON.parse(text);
 };
 
-// FIX: Changed parameter type from File to Blob to resolve a type error when calling this function with a Blob created from a data URL.
 export const recolorTurban = async (file: Blob, newColor: string, turbanStyle: string): Promise<string> => {
     const imagePart = await fileToGenerativePart(file);
 
@@ -91,11 +90,12 @@ export const recolorTurban = async (file: Blob, newColor: string, turbanStyle: s
         contents: {
             parts: [
                 imagePart,
-                { text: `Using the provided image, change the color of the turban to ${newColor}. The turban should be in a ${turbanStyle} style. It is very important to not change the person's face, skin tone, background, or clothing. Keep the original style, shadows, and lighting of the turban perfectly intact, only altering its color and tying style.` }
+                { text: `From the image provided, change the turban's color to exactly ${newColor}.
+                Most importantly, the turban MUST be tied in a ${turbanStyle} style. This is a critical instruction.
+                Do NOT change the person's face, skin tone, background, or clothing. The final image must preserve the original photo's realism, including shadows and lighting on the turban. Only alter the turban's color and tying style to precisely match the request.` }
             ]
         },
         config: {
-            // FIX: Used Modality.IMAGE enum instead of a string for responseModalities, adhering to API guidelines.
             responseModalities: [Modality.IMAGE],
         }
     });
@@ -124,7 +124,7 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
     const prompt = `
         Generate an aesthetic, modern, full-body portrait of a young Sikh man.
         He is wearing a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, and plain, solid-colored pants with the hex color ${colors.pantsColor}.
-        His turban is a neat, stylish ${turbanStyle} turban with the hex color ${turbanColor}.
+        His turban must be a neat, stylish ${turbanStyle} turban with the hex color ${turbanColor}. It is absolutely essential that the turban style is a clear and accurate representation of a ${turbanStyle}. Adhering to the requested turban style is the most important part of this request.
         The setting is ${randomBackground}.
         The overall vibe should be elegant, modern, and visually pleasing. The man should have a gentle, confident expression. High-quality, photorealistic style.
     `;

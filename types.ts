@@ -41,6 +41,7 @@ export interface OutfitColors {
 }
 
 export interface TurbanSuggestion {
+    rank: number;
     colorName: string;
     hexCode: string;
     reason: string;

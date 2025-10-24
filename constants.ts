@@ -2,7 +2,7 @@ import { Language, Translation, TurbanStyle } from './types';
 
 export const TRANSLATIONS: Record<Language, Translation> = {
     en: {
-        appName: 'TurbanMatch',
+        appName: 'Turbn',
         tagline: 'Find the perfect turban for any outfit.',
         getStarted: 'Get Started',
         uploadOutfit: 'Upload Outfit Photo',
@@ -36,7 +36,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         yourOutfit: 'Your Outfit',
     },
     pa: {
-        appName: 'TurbanMatch',
+        appName: 'Turbn',
         tagline: 'ਕਿਸੇ ਵੀ ਪਹਿਰਾਵੇ ਲਈ ਸੰਪੂਰਨ ਦਸਤਾਰ ਲੱਭੋ।',
         getStarted: 'ਸ਼ੁਰੂ ਕਰੋ',
         uploadOutfit: 'ਪਹਿਰਾਵੇ ਦੀ ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ',
@@ -109,8 +109,17 @@ export const COMMON_PANTS_COLORS = [
 ];
 
 export const TURBAN_STYLES: TurbanStyle[] = [
-    { id: 'dastar', name: 'Modern Dastar', imageUrl: 'https://picsum.photos/seed/dastar/200/200' },
-    { id: 'patiala_shahi', name: 'Patiala Shahi', imageUrl: 'https://picsum.photos/seed/patiala/200/200' },
-    { id: 'dumalla', name: 'Dumalla', imageUrl: 'https://picsum.photos/seed/dumalla/200/200' },
-    { id: 'patka', name: 'Sporty Patka', imageUrl: 'https://picsum.photos/seed/patka/200/200' },
+    { id: 'dastar', name: 'Modern Dastar', imageUrl: 'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?w=200&h=200&fit=crop' },
+    { id: 'patiala_shahi', name: 'Patiala Shahi', imageUrl: 'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?w=200&h=200&fit=crop' },
+    { id: 'dumalla', name: 'Dumalla', imageUrl: 'https://images.unsplash.com/photo-1615995219369-6b14be7759de?w=200&h=200&fit=crop' },
+    { id: 'patka', name: 'Sporty Patka', imageUrl: 'https://images.unsplash.com/photo-1616188342452-0744130d84a4?w=200&h=200&fit=crop' },
+];
+
+// Conceptually, this acts as our 'assets' folder for the landing page visuals
+export const LANDING_PAGE_IMAGES = [
+    'https://images.unsplash.com/photo-1616188342452-0744130d84a4?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1615995219369-6b14be7759de?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1575887277685-1539fdbd5e49?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?w=500&auto=format&fit=crop',
 ];

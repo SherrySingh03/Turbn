@@ -1,9 +1,8 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import LandingScreen from './components/LandingScreen';
 import MainScreen from './components/MainScreen';
 import { Toaster } from 'react-hot-toast';
-import { Language, Translation, OutfitColors, TurbanSuggestion } from './types';
+import { Language, Translation } from './types';
 import { TRANSLATIONS } from './constants';
 import Header from './components/Header';
 
@@ -18,6 +17,10 @@ const App: React.FC = () => {
     const handleGetStarted = () => {
         setCurrentScreen('main');
     };
+
+    const goToHome = () => {
+        setCurrentScreen('landing');
+    };
     
     // Auto-delete saved images from localStorage after 24 hours
     useEffect(() => {
@@ -31,9 +34,9 @@ const App: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900 antialiased">
+        <div className="min-h-screen bg-stone-100 text-gray-900 antialiased">
             <Toaster position="top-center" reverseOrder={false} />
-             <Header language={language} setLanguage={setLanguage} t={t} />
+             <Header language={language} setLanguage={setLanguage} t={t} onHomeClick={goToHome} />
             <main>
                 {currentScreen === 'landing' && (
                     <LandingScreen onGetStarted={handleGetStarted} t={t} />
