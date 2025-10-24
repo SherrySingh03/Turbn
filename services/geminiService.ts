@@ -126,7 +126,7 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
         Generate an aesthetic, modern, full-body portrait of a young Sikh man.
         He is wearing a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, and plain, solid-colored pants with the hex color ${colors.pantsColor}.
         His turban MUST be a neat, stylish ${turbanStyle} turban with the hex color ${turbanColor}.
-        HIGHEST AND ABSOLUTE PRIORITY: It is absolutely essential that the turban style is a clear and accurate representation of a ${turbanStyle}. Do not simplify or generalize the style. For example, if a 'Patiala Shahi' is requested, generate that specific, voluminous style, not a simple round turban. Adhering to the requested turban style is the single most important part of this request. The success of this image depends entirely on the accuracy of the turban style.
+        HIGHEST AND ABSOLUTE PRIORITY: It is absolutely essential that the turban style is a clear and accurate representation of a ${turbanStyle}. Do not simplify or generalize the style. For example, if a 'Patiala Shahi' is requested, generate that specific, voluminous style. Adhering to the requested turban style is the single most important part of this request. The success of this image depends entirely on the accuracy of the turban style.
         The setting is ${randomBackground}.
         The overall vibe should be elegant, modern, and visually pleasing. The man should have a gentle, confident expression. High-quality, photorealistic style.
     `;

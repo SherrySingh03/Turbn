@@ -5,7 +5,6 @@ import { LANDING_PAGE_IMAGES } from '../constants';
 
 interface LandingScreenProps {
     onGetStarted: () => void;
-    // FIX: Corrected the type definition from 'key of' to 'keyof'.
     t: (key: keyof Translation) => string;
 }
 
@@ -22,12 +21,6 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
         <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
             <style>
                 {`
-                    @keyframes float-up {
-                        0% { transform: translateY(110vh) rotate(-10deg); opacity: 0; }
-                        20% { opacity: 1; }
-                        80% { opacity: 1; }
-                        100% { transform: translateY(-110vh) rotate(10deg); opacity: 0; }
-                    }
                     .animate-float-1 { animation: float-up 25s linear infinite; }
                     .animate-float-2 { animation: float-up 30s linear infinite 5s; }
                     .animate-float-3 { animation: float-up 20s linear infinite 10s; }
@@ -43,18 +36,18 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
                 `}
             </style>
             
-            <FloatingImage imageUrl={images[0]} animationClass="animate-float-1" className="w-40 h-60 top-0 left-[5%]" />
-            <FloatingImage imageUrl={images[1]} animationClass="animate-float-2" className="w-32 h-48 top-0 left-[30%]" />
-            <FloatingImage imageUrl={images[2]} animationClass="animate-float-3" className="w-48 h-72 top-0 left-[55%]" />
-            <FloatingImage imageUrl={images[3]} animationClass="animate-float-4" className="w-36 h-52 top-0 left-[80%]" />
-            <FloatingImage imageUrl={images[4]} animationClass="animate-float-5" className="w-28 h-40 top-0 left-[95%]" />
-            <FloatingImage imageUrl={images[5]} animationClass="animate-float-6" className="w-32 h-48 top-0 left-[15%]" />
-            <FloatingImage imageUrl={images[6]} animationClass="animate-float-7" className="w-40 h-60 top-0 left-[45%]" />
-            <FloatingImage imageUrl={images[7]} animationClass="animate-float-8" className="w-36 h-52 top-0 left-[70%]" />
-            <FloatingImage imageUrl={images[8]} animationClass="animate-float-9" className="w-40 h-60 top-0 left-[20%]" />
-            <FloatingImage imageUrl={images[9]} animationClass="animate-float-10" className="w-32 h-48 top-0 left-[65%]" />
-            <FloatingImage imageUrl={images[10]} animationClass="animate-float-11" className="w-48 h-72 top-0 left-[85%]" />
-            <FloatingImage imageUrl={images[11]} animationClass="animate-float-12" className="w-36 h-52 top-0 left-[0%]" />
+            <FloatingImage imageUrl={images[0]} animationClass="animate-float-1" className="w-40 h-60 left-[5%]" />
+            <FloatingImage imageUrl={images[1]} animationClass="animate-float-2" className="w-32 h-48 left-[30%]" />
+            <FloatingImage imageUrl={images[2]} animationClass="animate-float-3" className="w-48 h-72 left-[55%]" />
+            <FloatingImage imageUrl={images[3]} animationClass="animate-float-4" className="w-36 h-52 left-[80%]" />
+            <FloatingImage imageUrl={images[4]} animationClass="animate-float-5" className="w-28 h-40 left-[95%]" />
+            <FloatingImage imageUrl={images[5]} animationClass="animate-float-6" className="w-32 h-48 left-[15%]" />
+            <FloatingImage imageUrl={images[6]} animationClass="animate-float-7" className="w-40 h-60 left-[45%]" />
+            <FloatingImage imageUrl={images[7]} animationClass="animate-float-8" className="w-36 h-52 left-[70%]" />
+            <FloatingImage imageUrl={images[8]} animationClass="animate-float-9" className="w-40 h-60 left-[20%]" />
+            <FloatingImage imageUrl={images[9]} animationClass="animate-float-10" className="w-32 h-48 left-[65%]" />
+            <FloatingImage imageUrl={images[10]} animationClass="animate-float-11" className="w-48 h-72 left-[85%]" />
+            <FloatingImage imageUrl={images[11]} animationClass="animate-float-12" className="w-36 h-52 left-[0%]" />
 
             <div className="relative z-10 text-center p-8 bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl max-w-lg mx-4">
                 <h2 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
@@ -65,7 +58,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onGetStarted, t }) => {
                 </p>
                 <button
                     onClick={onGetStarted}
-                    className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-transform transform hover:scale-105"
+                    className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95"
                 >
                     {t('getStarted')}
                     <ChevronRightIcon className="w-6 h-6 ml-2 transition-transform group-hover:translate-x-1" />

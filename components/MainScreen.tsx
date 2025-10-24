@@ -20,7 +20,7 @@ interface ColorSwatchProps {
 }
 
 const ColorSwatch: React.FC<ColorSwatchProps> = ({ color, name, isSelected, onClick }) => (
-    <button onClick={onClick} className={`w-16 h-16 rounded-2xl border-2 transition-transform transform hover:scale-110 ${isSelected ? 'border-teal-600 ring-2 ring-teal-400' : 'border-gray-200'}`} style={{ backgroundColor: color }} title={name} />
+    <button onClick={onClick} className={`w-16 h-16 rounded-2xl border-2 transition-transform transform hover:scale-110 active:scale-100 ${isSelected ? 'border-teal-600 ring-2 ring-teal-400' : 'border-gray-200'}`} style={{ backgroundColor: color }} title={name} />
 );
 
 const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
@@ -28,6 +28,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
     const [outfitColors, setOutfitColors] = useState<OutfitColors>({ shirtColor: '#FFFFFF', pantsColor: '#1E3A8A' });
     const [suggestions, setSuggestions] = useState<TurbanSuggestion[]>([]);
     const [isLoading, setIsLoading] = useState<string | null>(null);
+    const [generatingForColor, setGeneratingForColor] = useState<string | null>(null);
     const [outfitImage, setOutfitImage] = useState<string | null>(null);
     const [userImage, setUserImage] = useState<string | null>(null);
     const [generatedImage, setGeneratedImage] = useState<string | null>(null);
@@ -78,34 +79,31 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
     
     const handleGenerateImage = async (turbanColor: string) => {
         const styleName = TURBAN_STYLES.find(s => s.id === selectedTurbanStyle)?.name || 'turban';
+        setGeneratingForColor(turbanColor);
+        setIsLoading(t('generatingLook'));
 
-        if (mode === 'manual') {
-            setIsLoading(t('generatingLook'));
-            try {
+        try {
+            if (mode === 'manual') {
                 const result = await generateSikhLook(outfitColors, turbanColor, styleName);
                 setGeneratedImage(`data:image/png;base64,${result}`);
-            } catch (error) {
-                toast.error(t('errorImageGeneration'));
-                console.error(error);
-            } finally {
-                setIsLoading(null);
-            }
-        } else { // mode === 'upload'
-            if (!userImage) {
-                userFileRef.current?.click();
-                return;
-            }
-            setIsLoading(t('generatingLook'));
-            try {
+            } else { // mode === 'upload'
+                if (!userImage) {
+                    userFileRef.current?.click();
+                    // Reset loading state if user cancels file selection
+                    setGeneratingForColor(null);
+                    setIsLoading(null);
+                    return;
+                }
                 const file = await (await fetch(userImage)).blob();
                 const result = await recolorTurban(file, turbanColor, styleName);
                 setGeneratedImage(`data:image/png;base64,${result}`);
-            } catch (error) {
-                toast.error(t('errorImageGeneration'));
-                console.error(error);
-            } finally {
-                setIsLoading(null);
             }
+        } catch (error) {
+            toast.error(t('errorImageGeneration'));
+            console.error(error);
+        } finally {
+            setIsLoading(null);
+            setGeneratingForColor(null);
         }
     };
 
@@ -142,7 +140,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
         setSelectedTurbanStyle(TURBAN_STYLES[0].id);
     };
 
-    if (isLoading) {
+    if (isLoading && !generatingForColor) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-center">
                 <SparklesIcon className="w-16 h-16 text-teal-500 animate-pulse mb-4" />
@@ -153,14 +151,14 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
 
     if (generatedImage) {
         return (
-            <div className="container mx-auto p-4 pt-24 max-w-2xl text-center">
+            <div className="container mx-auto p-4 pt-24 max-w-2xl text-center animate-fade-in">
                  <h2 className="text-3xl font-bold mb-4">{t('yourLook')}</h2>
                  <img src={generatedImage} alt="Generated Look" className="rounded-xl shadow-lg mx-auto mb-6 w-full" />
                  <div className="flex flex-wrap justify-center gap-4">
-                     <button onClick={handleGoBack} className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100 transition">Back</button>
-                     <button onClick={handleDownload} className="px-6 py-2 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition">{t('download')}</button>
-                     <button onClick={handleSave} className="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">{t('saved')}</button>
-                     <button onClick={reset} className="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition">{t('startOver')}</button>
+                     <button onClick={handleGoBack} className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">Back</button>
+                     <button onClick={handleDownload} className="px-6 py-2 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('download')}</button>
+                     <button onClick={handleSave} className="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('saved')}</button>
+                     <button onClick={reset} className="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('startOver')}</button>
                  </div>
             </div>
         );
@@ -169,12 +167,12 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
     return (
         <div className="container mx-auto p-4 pt-24 max-w-6xl">
             {!mode && (
-                 <div className="grid md:grid-cols-2 gap-8 text-center">
-                    <button onClick={() => setMode('upload')} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition group">
+                 <div key="mode-selection" className="grid md:grid-cols-2 gap-8 text-center animate-fade-in">
+                    <button onClick={() => setMode('upload')} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition-all duration-300 group transform hover:scale-105 active:scale-95">
                         <UploadIcon className="w-12 h-12 mx-auto mb-4 text-gray-400 group-hover:text-teal-600" />
                         <h3 className="text-xl font-semibold">{t('uploadOutfitPhoto')}</h3>
                     </button>
-                    <button onClick={() => setMode('manual')} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition group">
+                    <button onClick={() => setMode('manual')} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition-all duration-300 group transform hover:scale-105 active:scale-95">
                         <PaletteIcon className="w-12 h-12 mx-auto mb-4 text-gray-400 group-hover:text-teal-600" />
                         <h3 className="text-xl font-semibold">{t('pickColorsManually')}</h3>
                     </button>
@@ -182,8 +180,8 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
             )}
 
             {mode === 'upload' && !outfitImage && (
-                <div className="text-center">
-                    <button onClick={() => outfitFileRef.current?.click()} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition group w-full max-w-md mx-auto">
+                <div className="text-center animate-fade-in">
+                    <button onClick={() => outfitFileRef.current?.click()} className="p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-teal-500 hover:bg-teal-50 transition group w-full max-w-md mx-auto transform hover:scale-105 active:scale-95">
                         <UploadIcon className="w-12 h-12 mx-auto mb-4 text-gray-400 group-hover:text-teal-600" />
                         <h3 className="text-xl font-semibold">{t('uploadOutfit')}</h3>
                     </button>
@@ -192,11 +190,9 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
             )}
 
             {mode === 'manual' && suggestions.length === 0 && (
-                <div className="grid md:grid-cols-2 gap-8 items-start">
-                    {/* Left side: Color selectors */}
+                <div key="manual-mode" className="grid md:grid-cols-2 gap-8 items-start animate-fade-in">
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h3 className="text-xl font-semibold mb-4 text-center">{t('pickColors')}</h3>
-                        {/* Shirt Colors */}
                         <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-700 mb-2">{t('shirtColor')}</label>
                             <div className="flex flex-wrap gap-3">
@@ -204,7 +200,6 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
                                 <input type="color" value={outfitColors.shirtColor} onChange={(e) => setOutfitColors({...outfitColors, shirtColor: e.target.value})} className="w-16 h-16 rounded-2xl border-2 border-gray-200 cursor-pointer p-1 bg-clip-content" title="Custom Color" />
                             </div>
                         </div>
-                         {/* Pants Colors */}
                          <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">{t('pantsColor')}</label>
                              <div className="flex flex-wrap gap-3">
@@ -212,10 +207,8 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
                                 <input type="color" value={outfitColors.pantsColor} onChange={(e) => setOutfitColors({...outfitColors, pantsColor: e.target.value})} className="w-16 h-16 rounded-2xl border-2 border-gray-200 cursor-pointer p-1 bg-clip-content" title="Custom Color" />
                             </div>
                         </div>
-                        <button onClick={() => handleGetSuggestions(outfitColors)} className="w-full mt-6 px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition">{t('getSuggestions')}</button>
+                        <button onClick={() => handleGetSuggestions(outfitColors)} disabled={!!isLoading} className="w-full mt-6 px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95 disabled:bg-teal-400 disabled:cursor-not-allowed">{t('getSuggestions')}</button>
                     </div>
-
-                    {/* Right side: Preview */}
                     <div className="p-6 rounded-lg bg-white shadow-md flex flex-col items-center justify-center aspect-w-3 aspect-h-4">
                         <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} />
                     </div>
@@ -223,22 +216,21 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
             )}
             
             {suggestions.length > 0 && (
-                 <div className="grid md:grid-cols-3 gap-8 items-start">
+                 <div key="suggestions-mode" className="grid md:grid-cols-3 gap-8 items-start animate-fade-in">
                     <div className="md:col-span-1 space-y-4">
                         <h3 className="text-xl font-semibold text-center">{t('yourOutfit')}</h3>
                         <div className="p-2 rounded-lg bg-white shadow-md flex flex-col items-center justify-center aspect-w-3 aspect-h-4">
                              <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} />
                         </div>
-                         {mode === 'manual' && <button onClick={() => setSuggestions([])} className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">{t('editColors')}</button>}
+                         {mode === 'manual' && <button onClick={() => setSuggestions([])} className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('editColors')}</button>}
                     </div>
 
                     <div className="md:col-span-2">
-                        {/* Turban Style Gallery */}
                         <div className="mb-10">
                             <h2 className="text-2xl font-bold text-center mb-4">{t('selectTurbanStyle')}</h2>
                             <div className="flex justify-center gap-4 overflow-x-auto pb-4">
                                 {TURBAN_STYLES.map(style => (
-                                    <button key={style.id} onClick={() => setSelectedTurbanStyle(style.id)} className={`flex-shrink-0 p-3 rounded-lg text-center transition ${selectedTurbanStyle === style.id ? 'bg-teal-100 ring-2 ring-teal-500' : 'bg-white hover:bg-gray-100 shadow-sm'}`}>
+                                    <button key={style.id} onClick={() => setSelectedTurbanStyle(style.id)} className={`flex-shrink-0 p-3 rounded-lg text-center transition-all duration-200 transform hover:scale-105 active:scale-95 ${selectedTurbanStyle === style.id ? 'bg-teal-100 ring-2 ring-teal-500' : 'bg-white hover:bg-gray-100 shadow-sm'}`}>
                                         <img src={style.imageUrl} alt={style.name} className="w-20 h-20 rounded-full mx-auto object-cover border-2 border-gray-200" />
                                         <p className="mt-2 text-xs font-semibold">{style.name}</p>
                                     </button>
@@ -249,14 +241,22 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
                         <h2 className="text-2xl font-bold text-center mb-4">{t('suggestions')}</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                             {suggestions.sort((a,b) => a.rank - b.rank).map((suggestion) => (
-                                <div key={suggestion.hexCode} className="bg-white rounded-xl shadow-lg p-5 text-center transform hover:-translate-y-1 transition-transform duration-300 cursor-pointer flex flex-col" onClick={() => handleGenerateImage(suggestion.hexCode)}>
-                                    <div className="flex items-center gap-4 mb-3">
-                                        <div style={{ backgroundColor: suggestion.hexCode }} className="w-16 h-16 rounded-full border-4 border-gray-100 shadow-inner flex-shrink-0"></div>
-                                        <div>
-                                            <h4 className="text-base font-semibold text-left">{suggestion.rank}. {suggestion.colorName}</h4>
+                                <div key={suggestion.hexCode} className={`bg-white rounded-xl shadow-lg p-5 text-center transform hover:-translate-y-1 active:scale-[0.98] transition-transform duration-300 flex flex-col ${generatingForColor ? 'cursor-not-allowed' : 'cursor-pointer'}`} onClick={() => !generatingForColor && handleGenerateImage(suggestion.hexCode)}>
+                                    {generatingForColor === suggestion.hexCode ? (
+                                        <div className="flex-grow flex items-center justify-center">
+                                            <SparklesIcon className="w-10 h-10 text-teal-500 animate-spin" />
                                         </div>
-                                    </div>
-                                    <p className="text-xs text-gray-500 text-left flex-grow">{suggestion.reason}</p>
+                                    ) : (
+                                        <>
+                                            <div className="flex items-center gap-4 mb-3">
+                                                <div style={{ backgroundColor: suggestion.hexCode }} className="w-16 h-16 rounded-full border-4 border-gray-100 shadow-inner flex-shrink-0"></div>
+                                                <div>
+                                                    <h4 className="text-base font-semibold text-left">{suggestion.rank}. {suggestion.colorName}</h4>
+                                                </div>
+                                            </div>
+                                            <p className="text-xs text-gray-500 text-left flex-grow">{suggestion.reason}</p>
+                                        </>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -265,7 +265,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t }) => {
                             <div className="p-6 bg-teal-50 border-l-4 border-teal-500 rounded-r-lg text-center">
                                 <h3 className="text-lg font-semibold mb-2">{t('uploadYourself')}</h3>
                                 <p className="text-teal-800 mb-4 text-sm">{userImage ? 'Click a color above to generate your look!' : t('uploadPrompt')}</p>
-                                <button onClick={() => userFileRef.current?.click()} className="inline-flex items-center px-6 py-2 bg-white text-teal-600 border border-teal-300 rounded-lg font-semibold hover:bg-teal-100 transition">
+                                <button onClick={() => userFileRef.current?.click()} className="inline-flex items-center px-6 py-2 bg-white text-teal-600 border border-teal-300 rounded-lg font-semibold hover:bg-teal-100 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">
                                 <UploadIcon className="w-5 h-5 mr-2" />
                                 {userImage ? 'Change Photo' : 'Upload Photo'}
                                 </button>

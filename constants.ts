@@ -117,16 +117,16 @@ export const TURBAN_STYLES: TurbanStyle[] = [
 
 // Conceptually, this acts as our 'assets' folder for the landing page visuals
 export const LANDING_PAGE_IMAGES = [
-    'https://images.unsplash.com/photo-1615995219323-2195f6373b5d?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1596001257365-884b6f8b6c86?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1616188342452-0744130d84a4?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1575887277685-1539fdbd5e49?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1620182420364-01344353495f?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1620182420363-3d36b535e6de?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1615995219369-6b14be7759de?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1631214083392-82f5b4f5e3e2?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1609102146985-5b1110433a04?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1574925206253-c57404d55383?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1631214083392-82f5b4f5e3e2?q=80&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1583395272183-001ac00257e8?q=80&w=800&auto=format&fit=crop',
+    'https://images.pexels.com/photos/15099685/pexels-photo-15099685.jpeg',
+    'https://images.pexels.com/photos/29261349/pexels-photo-29261349.jpeg',
+    'https://images.pexels.com/photos/29509894/pexels-photo-29509894.jpeg',
+    'https://images.pexels.com/photos/29611425/pexels-photo-29611425.jpeg',
+    'https://images.pexels.com/photos/29636303/pexels-photo-29636303.jpeg',
+    'https://images.pexels.com/photos/2890747/pexels-photo-2890747.jpeg',
+    'https://images.pexels.com/photos/15073750/pexels-photo-15073750.jpeg',
+    'https://images.pexels.com/photos/18184057/pexels-photo-18184057.jpeg',
+    'https://images.pexels.com/photos/13156810/pexels-photo-13156810.jpeg',
+    'https://images.pexels.com/photos/15073762/pexels-photo-15073762.jpeg',
+    'https://images.pexels.com/photos/5163938/pexels-photo-5163938.jpeg',
+    'https://images.pexels.com/photos/14875566/pexels-photo-14875566.jpeg'
 ];
