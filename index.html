@@ -2,34 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="data:image/png;base64,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" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Turbn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom font for a more elegant feel */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* A fallback color */
-            /* A soft, ambient gradient that makes the glass effect pop */
-            background-image: radial-gradient(circle at 1% 1%, rgba(224, 239, 255, 0.8), transparent 50%),
-                              radial-gradient(circle at 99% 99%, rgba(255, 224, 239, 0.8), transparent 50%);
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a202c; /* Fallback */
+            background-image: linear-gradient(to bottom right, #1a202c, #2d3748);
             min-height: 100vh;
+            color: #E2E8F0; /* slate-200 */
         }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
         /* Custom scrollbar for a polished look */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
         
         /* Global Animations */
@@ -39,12 +44,6 @@
         }
         .animate-fade-in {
             animation: fade-in 0.5s ease-out forwards;
-        }
-
-        /* Renamed and updated for a seamless, continuous scroll from the start */
-        @keyframes endless-scroll {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); } /* Loops perfectly because the content is duplicated */
         }
     </style>
 <script type="importmap">
@@ -59,7 +58,7 @@
 }
 </script>
 </head>
-<body class="text-slate-800">
+<body class="text-slate-200">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

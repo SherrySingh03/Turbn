@@ -44,14 +44,14 @@ const App: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen text-slate-800 antialiased">
+        <div className="min-h-screen text-slate-200 antialiased">
             <Toaster position="top-center" reverseOrder={false} toastOptions={{
                 style: {
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    color: '#1e293b', // slate-800
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(30, 41, 59, 0.8)', // slate-800 with opacity
+                    color: '#f1f5f9', // slate-100
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(16px)',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
                 }
             }}/>
              <Header language={language} setLanguage={setLanguage} t={t} onHomeClick={goToHome} onSavedClick={goToSaved} />

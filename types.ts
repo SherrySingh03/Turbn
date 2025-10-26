@@ -9,6 +9,7 @@ export interface Translation {
     pickColors: string;
     shirtColor: string;
     pantsColor: string;
+    highlightsColor: string;
     getSuggestions: string;
     uploadYourself: string;
     uploadPrompt: string;
@@ -45,6 +46,7 @@ export interface Translation {
 export interface OutfitColors {
     shirtColor: string;
     pantsColor: string;
+    highlightsColor?: string | null;
 }
 
 export interface TurbanSuggestion {

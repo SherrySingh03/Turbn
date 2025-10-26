@@ -50,8 +50,14 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
 
 
 export const getTurbanSuggestions = async (colors: OutfitColors): Promise<TurbanSuggestion[]> => {
+    const highlightsPromptPart = colors.highlightsColor
+        ? `The shirt also has accent highlights with the hex color ${colors.highlightsColor}.`
+        : '';
+
     const prompt = `
-        Given a shirt color of ${colors.shirtColor} and pants color of ${colors.pantsColor}, suggest the top 4 best matching turban colors based on color theory.
+        An outfit consists of a shirt with the hex color ${colors.shirtColor} and pants with the hex color ${colors.pantsColor}.
+        ${highlightsPromptPart}
+        Based on this complete outfit, suggest the top 4 best matching turban colors using color theory. The suggestions must harmonize with all colors, including the highlights if present.
         Rank them from 1 to 4 (best to worst).
         For each suggestion, provide a concise, persuasive, and stylish reason (max 12 words) for why it's a great match. The tone should be like a fashion advisor.
         Examples: "Creates a bold, high-contrast statement.", "An elegant monochromatic look.", "A warm, earthy pairing for a relaxed vibe."
@@ -122,10 +128,15 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
         "in front of a bookshelf in a quiet library",
     ];
     const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    
+    const shirtDescription = colors.highlightsColor
+        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring subtle, stylish embroidery or pattern highlights in the hex color ${colors.highlightsColor}`
+        : `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}`;
+
 
     const prompt = `
         Generate an aesthetic, modern, full-body portrait of a young Sikh man.
-        He is wearing a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, and plain, solid-colored pants with the hex color ${colors.pantsColor}.
+        He is wearing ${shirtDescription}, and plain, solid-colored pants with the hex color ${colors.pantsColor}.
         He is wearing a neat, stylish turban with the hex color ${turbanColor}.
         The setting is ${randomBackground}.
         The overall vibe should be elegant, modern, and visually pleasing. The man should have a gentle, confident expression. High-quality, photorealistic style.

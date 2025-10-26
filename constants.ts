@@ -10,6 +10,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         pickColors: 'Pick Outfit Colors',
         shirtColor: 'Shirt Color',
         pantsColor: 'Pants Color',
+        highlightsColor: 'Highlights Color (Optional)',
         getSuggestions: 'Get Turban Suggestions',
         uploadYourself: 'Upload a photo of yourself wearing a turban',
         uploadPrompt: 'Click on a suggested color to generate your new look!',
@@ -62,6 +63,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         pickColors: 'ਪਹਿਰਾਵੇ ਦੇ ਰੰਗ ਚੁਣੋ',
         shirtColor: 'ਕਮੀਜ਼ ਦਾ ਰੰਗ',
         pantsColor: 'ਪੈਂਟ ਦਾ ਰੰਗ',
+        highlightsColor: 'ਹਾਈਲਾਈਟਸ ਰੰਗ (ਵਿਕਲਪਿਕ)',
         getSuggestions: 'ਦਸਤਾਰ ਲਈ ਸੁਝਾਅ ਪ੍ਰਾਪਤ ਕਰੋ',
         uploadYourself: 'ਦਸਤਾਰ ਪਹਿਨੇ ਹੋਏ ਆਪਣੀ ਇੱਕ ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ',
         uploadPrompt: 'ਆਪਣਾ ਨਵਾਂ ਰੂਪ ਬਣਾਉਣ ਲਈ ਸੁਝਾਏ ਗਏ ਰੰਗ ਤੇ ਕਲਿੱਕ ਕਰੋ!',
@@ -142,6 +144,15 @@ export const COMMON_PANTS_COLORS = [
     { name: 'Burgundy', hex: '#800020' },
     { name: 'Stone', hex: '#8B8C7A' },
     { name: 'Charcoal', hex: '#36454F' },
+];
+
+export const COMMON_HIGHLIGHTS_COLORS = [
+    { name: 'Gold', hex: '#FFD700' },
+    { name: 'Silver', hex: '#C0C0C0' },
+    { name: 'White', hex: '#FFFFFF' },
+    { name: 'Black', hex: '#000000' },
+    { name: 'Crimson Red', hex: '#DC143C' },
+    { name: 'Royal Blue', hex: '#4169E1' },
 ];
 
 // Conceptually, this acts as our 'assets' folder for the landing page visuals

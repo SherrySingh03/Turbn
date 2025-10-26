@@ -1,20 +1,18 @@
 import React from 'react';
-
 interface OutfitPreviewProps {
     shirtColor: string;
     pantsColor: string;
+    highlightsColor?: string | null;
 }
 
 const MANNEQUIN_IMAGE_URL = 'https://storage.googleapis.com/aistudio-misc-assets/mannequin-realistic-transparent-bg.png';
 const BACKGROUND_IMAGE_URL = 'https://images.pexels.com/photos/2883049/pexels-photo-2883049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
-const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor }) => {
+const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor, highlightsColor }) => {
     return (
         <div 
             className="relative w-full h-full p-2 rounded-2xl overflow-hidden shadow-lg"
             style={{ 
-                backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
-                backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 minHeight: '200px'
             }}
@@ -22,34 +20,85 @@ const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor })
             {/* Container for positioning the color and mannequin layers */}
             <div className="relative w-full h-full" style={{ minHeight: '200px' }}>
                 {/* Layer 1: SVG with solid, opaque color fills clipped to shape */}
-                <svg 
-                    viewBox="0 0 300 600" 
-                    className="absolute top-0 left-0 w-full h-full" 
-                    preserveAspectRatio="xMidYMid meet"
+                <svg
+                    width="100%"
+                    height="400"
+                    viewBox="0 0 250 500"
+                    xmlns="http://www.w3.org/2000/svg"
                 >
-                    <defs>
-                        <clipPath id="shirt-clip-path">
-                            <path d="M130,102 C130,95 170,95 170,102 L195,115 L220,130 L225,170 L210,180 L205,325 H95 L90,180 L75,170 L80,130 L105,115 Z" />
-                        </clipPath>
-                        <clipPath id="pants-clip-path">
-                             <path d="M95,325 L85,580 H125 V450 C135,430 165,430 175,450 V580 H215 L205,325 Z" />
-                        </clipPath>
-                    </defs>
-                    
-                    <rect x="0" y="0" width="300" height="600" fill={pantsColor} clipPath="url(#pants-clip-path)" />
-                    <rect x="0" y="0" width="300" height="600" fill={shirtColor} clipPath="url(#shirt-clip-path)" />
-                </svg>
+                    {/* SKIN / BODY */}
+                    <g id="body" fill="#f2d6b3" stroke="#7a5e3a" strokeWidth="1">
+                    {/* Head */}
+                    <ellipse cx="125" cy="55" rx="25" ry="30" />
+                    {/* Neck */}
+                    <rect x="112" y="85" width="26" height="12" rx="5" />
+                    {/* Arms */}
+                    <path
+                        d="M55,120 
+                        Q45,200 60,260 
+                        Q70,270 80,260 
+                        Q65,200 80,130 
+                        Q72,120 55,120Z"
+                    />
+                    <path
+                        d="M195,120 
+                        Q205,200 190,260 
+                        Q180,270 170,260 
+                        Q185,200 170,130 
+                        Q178,120 195,120Z"
+                    />
+                    {/* Legs */}
+                    </g>
 
-                {/* Layer 2: Mannequin image overlay for texture and shadows */}
-                <div
-                    className="absolute top-0 left-0 w-full h-full"
-                    style={{
-                        backgroundImage: `url(${MANNEQUIN_IMAGE_URL})`,
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center bottom',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
+                    {/* SHIRT (upper body) */}
+                    <g id="shirt" fill={shirtColor} stroke="#222" strokeWidth="0.8">
+                    <path
+                        d="
+                        M80,100 
+                        Q125,80 170,100 
+                        Q180,120 185,160 
+                        Q188,200 125,210 
+                        Q62,200 65,160 
+                        Q70,120 80,100Z"
+                    />
+                    </g>
+                    
+                    {highlightsColor && (
+                        <g id="highlights" stroke={highlightsColor} strokeWidth="2" fill="none" strokeLinecap="round">
+                            <path d="M90,140 L110,120" />
+                            <path d="M100,160 L125,135" />
+                            <path d="M115,180 L140,155" />
+                            <path d="M140,130 L160,150" opacity="0.8" />
+                            <path d="M150,110 L130,130" opacity="0.8" />
+                        </g>
+                    )}
+
+                    {/* PANTS (lower body) */}
+                    <g id="pants" fill={pantsColor} stroke="#111" strokeWidth="0.8">
+                    <path
+                        d="
+                        M85,210 
+                        Q125,220 165,210 
+                        Q175,270 165,330 
+                        Q160,400 155,480 
+                        Q145,485 130,480 
+                        Q125,380 125,310 
+                        Q115,380 110,480 
+                        Q95,485 85,480 
+                        Q80,400 85,330 
+                        Q75,270 85,210Z"
+                    />
+                    </g>
+
+                    {/* OUTLINE */}
+                    <path
+                    d="M125,20 Q140,25 145,50 Q150,80 180,100 Q200,150 190,250 Q175,380 165,480 Q155,495 125,495 Q95,495 85,480 Q75,380 60,250 Q50,150 70,100 Q100,80 105,50 Q110,25 125,20Z"
+                    fill="none"
+                    stroke="#333"
+                    strokeWidth="0"
+                    opacity="0.25"
+                    />
+                </svg>
             </div>
         </div>
     );
