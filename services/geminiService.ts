@@ -61,7 +61,7 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
         Based on this complete outfit, suggest the top 4 best matching turban colors using color theory. The suggestions must harmonize with all colors, including the highlights if present.
         Rank them from 1 to 4 (best to worst).
         For each suggestion, provide a concise, persuasive, and stylish reason (max 12 words) for why it's a great match. The tone should be like a fashion advisor.
-        Crucially, if highlights are present, your reason must mention how the suggested turban color interacts with the highlight color.
+        If highlights are present, your reason must mention how the suggested turban color interacts with the highlight color.
         Examples of reasons: "Creates a bold, high-contrast statement.", "An elegant monochromatic look.", "Picks up the gold highlights perfectly."
         Return the result as a JSON array of objects, where each object has 'rank', 'colorName', 'hexCode', and 'reason' properties.
     `;
