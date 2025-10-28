@@ -52,17 +52,17 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
 
 export const getTurbanSuggestions = async (colors: OutfitColors): Promise<TurbanSuggestion[]> => {
     const highlightsPromptPart = colors.highlightsColor
-        ? `The shirt also has accent highlights with the hex color ${colors.highlightsColor}.`
+        ? `The shirt also has an accent highlight color with the hex code ${colors.highlightsColor}.`
         : '';
 
     const prompt = `
         An outfit consists of a shirt with the hex color ${colors.shirtColor} and pants with the hex color ${colors.pantsColor}.
         ${highlightsPromptPart}
-        Based on this complete outfit, suggest the top 4 best matching turban colors using color theory. The suggestions must harmonize with all colors, including the highlights if present.
+        Based on this complete outfit, suggest the top 4 best matching turban colors using color theory. The suggestions must harmonize with all colors.
         Rank them from 1 to 4 (best to worst).
-        For each suggestion, provide a concise, persuasive, and stylish reason (max 12 words) for why it's a great match. The tone should be like a fashion advisor.
-        If highlights are present, your reason must mention how the suggested turban color interacts with the highlight color.
-        Examples of reasons: "Creates a bold, high-contrast statement.", "An elegant monochromatic look.", "Picks up the gold highlights perfectly."
+        For each suggestion, provide a concise, persuasive, and stylish reason (max 15 words) for why it's a great match. The tone should be like a fashion advisor.
+        If a highlight color is present, it is MANDATORY that your reasoning explicitly references how the suggested turban color complements or contrasts with the highlight color.
+        Examples of reasons: "Creates a bold, high-contrast statement.", "An elegant monochromatic look.", "Picks up the gold highlights perfectly.", "Subtly complements the crimson accents."
         Return the result as a JSON array of objects, where each object has 'rank', 'colorName', 'hexCode', and 'reason' properties.
     `;
 
@@ -132,7 +132,7 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
     const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     
     const shirtDescription = colors.highlightsColor
-        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring subtle, stylish embroidery or pattern highlights in the hex color ${colors.highlightsColor}`
+        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring a small, elegant embroidered emblem on the left chest area in the hex color ${colors.highlightsColor}`
         : `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}`;
 
 

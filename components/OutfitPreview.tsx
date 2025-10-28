@@ -65,18 +65,10 @@ const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor, h
                     </g>
                     
                     {highlightsColor && (
-                        <g id="highlights" stroke={highlightsColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            {/* Central V-shape pattern */}
-                            <path d="M125,115 Q135,125 140,140" />
-                            <path d="M125,115 Q115,125 110,140" />
-                            
-                            {/* Outer decorative curves */}
-                            <path d="M140,140 Q145,155 135,165" />
-                            <path d="M110,140 Q105,155 115,165" />
-                            
-                            {/* Center line decoration */}
-                            <path d="M125,115 L125,170" strokeWidth="1.5" />
-                            <circle cx="125" cy="175" r="3" fill={highlightsColor} stroke="none" />
+                        <g id="highlights" stroke={highlightsColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" transform="translate(95, 120) scale(0.15)">
+                            {/* Simple, symmetrical emblem on the left chest */}
+                            <path d="M 20,30 Q 50,0 80,30 L 80,70 Q 50,100 20,70 Z" />
+                            <circle cx="50" cy="50" r="10" fill={highlightsColor} stroke="none" />
                         </g>
                     )}
 
