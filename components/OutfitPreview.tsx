@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface OutfitPreviewProps {
     shirtColor: string;
@@ -64,12 +65,18 @@ const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor, h
                     </g>
                     
                     {highlightsColor && (
-                        <g id="highlights" stroke={highlightsColor} strokeWidth="2" fill="none" strokeLinecap="round">
-                            <path d="M90,140 L110,120" />
-                            <path d="M100,160 L125,135" />
-                            <path d="M115,180 L140,155" />
-                            <path d="M140,130 L160,150" opacity="0.8" />
-                            <path d="M150,110 L130,130" opacity="0.8" />
+                        <g id="highlights" stroke={highlightsColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            {/* Central V-shape pattern */}
+                            <path d="M125,115 Q135,125 140,140" />
+                            <path d="M125,115 Q115,125 110,140" />
+                            
+                            {/* Outer decorative curves */}
+                            <path d="M140,140 Q145,155 135,165" />
+                            <path d="M110,140 Q105,155 115,165" />
+                            
+                            {/* Center line decoration */}
+                            <path d="M125,115 L125,170" strokeWidth="1.5" />
+                            <circle cx="125" cy="175" r="3" fill={highlightsColor} stroke="none" />
                         </g>
                     )}
 
