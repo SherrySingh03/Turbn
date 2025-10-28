@@ -45,12 +45,12 @@ const LandingScreen: React.FC<{
         {
             title: "3. Discover",
             description: "Receive a ranked list of turban color suggestions, each with a stylish rationale grounded in color theory.",
-            image: "https://images.pexels.com/photos/762080/pexels-photo-762080.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            image: "https://user-gen-media-assets.s3.amazonaws.com/seedream_images/2af2921d-b652-4a4e-9169-bc860fe79fa6.png"
         },
         {
             title: "4. Visualize",
             description: "Bring your chosen combination to life. Generate a stunning, photorealistic image of your complete look in seconds.",
-            image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            image: "https://user-gen-media-assets.s3.amazonaws.com/seedream_images/ca83f878-3c6e-4671-8790-db269a40a378.png"
         }
     ];
     

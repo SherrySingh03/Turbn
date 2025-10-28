@@ -41,6 +41,7 @@ export interface Translation {
     generatingSuggestionsMessages: string[];
     generatingLookTitle: string;
     generatingLookMessages: string[];
+    lookPalette: string;
 }
 
 export interface OutfitColors {

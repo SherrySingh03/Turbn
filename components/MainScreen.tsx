@@ -241,17 +241,60 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                          <div key="suggestions-mode" className="grid lg:grid-cols-2 gap-8 items-start animate-fade-in">
                             {/* Left Panel: Outfit Display */}
                             <div className="lg:sticky lg:top-24 space-y-4">
-                                <h3 className="text-3xl font-bold text-center">{t('yourOutfit')}</h3>
-                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50">
+                                <h3 className="text-3xl font-bold text-center">{generatedImage && mode === 'manual' ? t('lookPalette') : t('yourOutfit')}</h3>
+                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50 min-h-[500px] flex flex-col justify-center">
                                     {mode === 'upload' && outfitImage ? (
                                         <img src={outfitImage} alt="Uploaded outfit" className="rounded-lg w-full object-cover aspect-[3/4]"/>
+                                    ) : generatedImage && selectedSuggestion ? (
+                                        <div className="animate-fade-in p-2 sm:p-4">
+                                            <div className="space-y-4">
+                                                {/* Turban */}
+                                                <div className="flex items-center gap-4 p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                    <div className="w-10 h-10 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: selectedSuggestion.hexCode }}></div>
+                                                    <div className="flex-grow">
+                                                        <p className="font-semibold text-base">{selectedSuggestion.colorName}</p>
+                                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Turban</p>
+                                                    </div>
+                                                    <p className="ml-auto text-sm font-mono text-slate-500">{selectedSuggestion.hexCode}</p>
+                                                </div>
+                                                {/* Shirt */}
+                                                <div className="flex items-center gap-4 p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                    <div className="w-10 h-10 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.shirtColor }}></div>
+                                                    <div className="flex-grow">
+                                                        <p className="font-semibold text-base">Shirt Color</p>
+                                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
+                                                    </div>
+                                                    <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.shirtColor}</p>
+                                                </div>
+                                                {/* Pants */}
+                                                <div className="flex items-center gap-4 p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                    <div className="w-10 h-10 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.pantsColor }}></div>
+                                                    <div className="flex-grow">
+                                                        <p className="font-semibold text-base">Pants Color</p>
+                                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
+                                                    </div>
+                                                    <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.pantsColor}</p>
+                                                </div>
+                                                {/* Highlights */}
+                                                {outfitColors.highlightsColor && (
+                                                    <div className="flex items-center gap-4 p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                        <div className="w-10 h-10 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.highlightsColor }}></div>
+                                                        <div className="flex-grow">
+                                                            <p className="font-semibold text-base">Highlight</p>
+                                                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
+                                                        </div>
+                                                        <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.highlightsColor}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     ) : (
                                         <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
                                     )}
                                 </div>
                                 <div className="flex justify-center gap-2">
                                     <button onClick={reset} className="flex-1 px-4 py-2 bg-slate-700/50 backdrop-blur-md border border-white/10 text-slate-200 rounded-lg font-semibold hover:bg-slate-600/70 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('startOver')}</button>
-                                    {mode === 'manual' && <button onClick={() => setSuggestions([])} className="flex-1 px-4 py-2 bg-slate-700/50 backdrop-blur-md border border-white/10 text-slate-200 rounded-lg font-semibold hover:bg-slate-600/70 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('editColors')}</button>}
+                                    {mode === 'manual' && <button onClick={() => { setSuggestions([]); setGeneratedImage(null); }} className="flex-1 px-4 py-2 bg-slate-700/50 backdrop-blur-md border border-white/10 text-slate-200 rounded-lg font-semibold hover:bg-slate-600/70 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95">{t('editColors')}</button>}
                                 </div>
                             </div>
 

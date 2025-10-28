@@ -53,6 +53,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
             "Capturing your unique style...",
             "Almost ready for the spotlight!",
         ],
+        lookPalette: "Your Look's Palette",
     },
     pa: {
         appName: 'Turbn',
@@ -106,6 +107,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
             "ਤੁਹਾਡੀ ਵਿਲੱਖਣ ਸ਼ੈਲੀ ਨੂੰ ਕੈਪਚਰ ਕਰਨਾ...",
             "ਸਪਾਟਲਾਈਟ ਲਈ ਲਗਭਗ ਤਿਆਰ!",
         ],
+        lookPalette: "ਤੁਹਾਡੇ ਲੁੱਕ ਦੀ ਪੈਲੇਟ",
     },
 };
 
