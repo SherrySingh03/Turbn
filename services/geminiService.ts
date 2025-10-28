@@ -132,7 +132,7 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
     const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     
     const shirtDescription = colors.highlightsColor
-        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring a small, elegant embroidered emblem on the left chest area in the hex color ${colors.highlightsColor}`
+        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring a small, elegant embroidered emblem on the left chest, with matching embroidery on the collar points and sleeve cuffs, all in the hex color ${colors.highlightsColor}`
         : `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}`;
 
 

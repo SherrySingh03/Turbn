@@ -6,24 +6,13 @@ interface OutfitPreviewProps {
     highlightsColor?: string | null;
 }
 
-const MANNEQUIN_IMAGE_URL = 'https://storage.googleapis.com/aistudio-misc-assets/mannequin-realistic-transparent-bg.png';
-const BACKGROUND_IMAGE_URL = 'https://images.pexels.com/photos/2883049/pexels-photo-2883049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-
 const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor, highlightsColor }) => {
     return (
-        <div 
-            className="relative w-full h-full p-2 rounded-2xl overflow-hidden shadow-lg"
-            style={{ 
-                backgroundPosition: 'center',
-                minHeight: '200px'
-            }}
-        >
-            {/* Container for positioning the color and mannequin layers */}
-            <div className="relative w-full h-full" style={{ minHeight: '200px' }}>
-                {/* Layer 1: SVG with solid, opaque color fills clipped to shape */}
+        <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
+            <div className="absolute inset-0 w-full h-full">
                 <svg
-                    width="100%"
-                    height="400"
+                    className="w-full h-full"
+                    preserveAspectRatio="xMidYMid meet"
                     viewBox="0 0 250 500"
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -65,10 +54,22 @@ const OutfitPreview: React.FC<OutfitPreviewProps> = ({ shirtColor, pantsColor, h
                     </g>
                     
                     {highlightsColor && (
-                        <g id="highlights" stroke={highlightsColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" transform="translate(95, 120) scale(0.15)">
-                            {/* Simple, symmetrical emblem on the left chest */}
-                            <path d="M 20,30 Q 50,0 80,30 L 80,70 Q 50,100 20,70 Z" />
-                            <circle cx="50" cy="50" r="10" fill={highlightsColor} stroke="none" />
+                        <g id="highlights" stroke={highlightsColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            {/* Chest Emblem */}
+                            <g transform="translate(112, 130) scale(0.25)">
+                                <path d="M 20,30 Q 50,0 80,30 L 80,70 Q 50,100 20,70 Z" />
+                                <circle cx="50" cy="50" r="10" fill={highlightsColor} stroke="none" />
+                            </g>
+                            {/* Collar Details */}
+                             <g transform="translate(0, 95) scale(1)">
+                                {/* Left Collar */}
+                                <path d="M 90,5 L 85,15 L 95,15 Z" />
+                                {/* Right Collar */}
+                                <path d="M 160,5 L 165,15 L 155,15 Z" />
+                            </g>
+                            {/* Sleeve Cuffs */}
+                            <path d="M 67, 160 A 10 10 0 0 1 83, 160" />
+                            <path d="M 183, 160 A 10 10 0 0 0 167, 160" />
                         </g>
                     )}
 

@@ -1,97 +1,155 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Translation } from '../types';
-import ChevronRightIcon from './icons/ChevronRightIcon';
 import { LANDING_PAGE_IMAGES } from '../constants';
 
-const HERO_IMAGE_URL = 'https://images.pexels.com/photos/15099685/pexels-photo-15099685.jpeg';
+const HERO_IMAGE_URL = 'https://images.pexels.com/photos/29261349/pexels-photo-29261349.jpeg';
+const NEW_ICON_DATA_URL = "https://www.svgrepo.com/show/66017/sikh.svg";
 
 const LandingScreen: React.FC<{
     onGetStarted: () => void;
     t: (key: keyof Translation) => string;
 }> = ({ onGetStarted, t }) => {
-    
-    // Inline SVG icon components for features
-    const FeatureIconAI = () => (
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 mb-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
-        </svg>
-    );
-    const FeatureIconVisualize = () => (
-         <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 mb-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-    );
-    const FeatureIconPersonalize = () => (
-         <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 mb-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9 9.563c0 .324.38.5.64.313l2.7-1.745a.5.5 0 000-.868l-2.7-1.746A.5.5 0 009 6.063v3.5zm6 0c0 .324.38.5.64.313l2.7-1.745a.5.5 0 000-.868l-2.7-1.746a.5.5 0 00-.64.313v3.5z" />
-        </svg>
-    );
 
-    const features = [
-        { icon: <FeatureIconAI />, title: "AI-Powered Suggestions", description: "Our smart algorithm analyzes your outfit's colors to suggest perfect turban pairings based on color theory." },
-        { icon: <FeatureIconVisualize />, title: "Instant Visualization", description: "See your new look come to life. Generate a photorealistic image of yourself with your chosen turban color." },
-        { icon: <FeatureIconPersonalize />, title: "Personalized For You", description: "Whether you upload a photo or pick colors manually, every suggestion is tailored to your unique style." },
+    // Observer for fade-in animations on scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+            }
+        );
+
+        const elements = document.querySelectorAll('.reveal');
+        elements.forEach((el) => observer.observe(el));
+
+        return () => elements.forEach((el) => observer.unobserve(el));
+    }, []);
+
+    const howItWorksSteps = [
+        {
+            title: "1. Inspire",
+            description: "Begin with your vision. Upload a photo of your outfit, and let our AI instantly analyze its color profile.",
+            image: "https://user-gen-media-assets.s3.amazonaws.com/seedream_images/28ad2fdf-c9fa-4175-9ffc-2e61413eb6d5.png"
+        },
+        {
+            title: "2. Define",
+            description: "Prefer a hands-on approach? Manually select your shirt, pants, and highlight colors from our curated palettes.",
+            image: "https://user-gen-media-assets.s3.amazonaws.com/gemini_images/28b943fa-944c-41fe-9ef3-1269db4b3352.png"
+        },
+        {
+            title: "3. Discover",
+            description: "Receive a ranked list of turban color suggestions, each with a stylish rationale grounded in color theory.",
+            image: "https://images.pexels.com/photos/762080/pexels-photo-762080.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+            title: "4. Visualize",
+            description: "Bring your chosen combination to life. Generate a stunning, photorealistic image of your complete look in seconds.",
+            image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        }
     ];
     
+    const galleryImages = [
+        { src: LANDING_PAGE_IMAGES[1], layout: 'row-span-2' },
+        { src: LANDING_PAGE_IMAGES[2], layout: '' },
+        { src: LANDING_PAGE_IMAGES[3], layout: '' },
+        { src: LANDING_PAGE_IMAGES[4], layout: 'row-span-2 col-span-2' },
+        { src: LANDING_PAGE_IMAGES[6], layout: '' },
+        { src: LANDING_PAGE_IMAGES[7], layout: '' },
+        { src: LANDING_PAGE_IMAGES[8], layout: '' },
+        { src: LANDING_PAGE_IMAGES[0], layout: 'row-span-2' },
+        { src: LANDING_PAGE_IMAGES[9], layout: 'col-span-2' },
+    ];
+
     return (
-        <div className="w-full">
+        <div className="w-full bg-slate-900 overflow-x-hidden">
             {/* Hero Section */}
-            <div className="relative w-full h-screen flex items-center justify-center">
+            <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
                 <div 
-                    className="absolute inset-0 bg-cover bg-center z-0" 
-                    style={{ backgroundImage: `url(${HERO_IMAGE_URL})` }}
-                    aria-hidden="true"
-                >
-                    <div className="absolute inset-0 bg-black/60"></div>
-                </div>
-                
-                <div className="relative z-10 text-center p-8 bg-slate-900/50 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-lg mx-4 border border-white/10 animate-fade-in">
-                    <h2 className="text-6xl font-extrabold text-white mb-4 tracking-tight" style={{textShadow: '0 2px 4px rgba(0,0,0,0.5)'}}>
-                        {t('appName')}
-                    </h2>
-                    <p className="text-xl text-slate-300 mb-8">
-                        {t('tagline')}
+                    className="absolute inset-0 bg-cover bg-center w-full h-full opacity-20" 
+                    style={{ 
+                        backgroundImage: `url(${HERO_IMAGE_URL})`,
+                        backgroundBlendMode: 'luminosity', 
+                        filter: 'grayscale(50%)'
+                    }}
+                ></div>
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in-up">
+                    <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>
+                       Define Your Style.<br/>Perfect Your Look.
+                    </h1>
+                    <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
+                        {t('tagline')} Use the power of AI to discover the ideal turban color for any outfit, effortlessly.
                     </p>
                     <button
                         onClick={onGetStarted}
-                        className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-slate-900 bg-amber-500 rounded-full hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-amber-500 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/30"
+                        className="group relative inline-flex items-center justify-center h-14 px-10 text-lg font-bold text-slate-900 bg-amber-400 rounded-full hover:bg-amber-300 focus:outline-none focus:ring-4 focus:ring-amber-400/50 transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-100 shadow-2xl shadow-amber-500/20"
                     >
-                        {t('getStarted')}
-                        <ChevronRightIcon className="w-6 h-6 ml-2 transition-transform group-hover:translate-x-1" />
+                       <span className="relative z-10">{t('getStarted')}</span>
+                       <span className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-md"></span>
                     </button>
                 </div>
-            </div>
-
-            {/* Features Section */}
-            <div className="py-20 bg-slate-900/30">
-                <div className="container mx-auto px-4">
-                    <h3 className="text-4xl font-bold text-center mb-12">How It Works</h3>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {features.map((feature, index) => (
-                            <div key={index} className="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center flex flex-col items-center shadow-lg transition-transform transform hover:-translate-y-2">
-                                {feature.icon}
-                                <h4 className="text-2xl font-semibold mb-3">{feature.title}</h4>
-                                <p className="text-slate-400">{feature.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            </section>
             
+            {/* How it Works Narrative Section */}
+            <section className="py-20 md:py-24 bg-slate-900/50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
+                    <div className="text-center max-w-3xl mx-auto reveal">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4">An Effortless Process</h2>
+                        <p className="text-slate-400 text-lg">From inspiration to visualization in four simple, elegant steps.</p>
+                    </div>
+                    {howItWorksSteps.map((step, index) => (
+                        <div key={step.title} className={`grid md:grid-cols-2 gap-12 items-center reveal`}>
+                            <div className={`text-left ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                                <h3 className="text-3xl font-bold text-amber-400 mb-4">{step.title}</h3>
+                                <p className="text-slate-300 text-lg leading-relaxed">{step.description}</p>
+                            </div>
+                            <div className={`rounded-xl overflow-hidden shadow-2xl border-2 border-slate-800/50 ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+                                <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+
             {/* Gallery Section */}
-            <div className="py-20">
-                 <div className="container mx-auto px-4">
-                    <h3 className="text-4xl font-bold text-center mb-12">Style Gallery</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {LANDING_PAGE_IMAGES.slice(0, 8).map((src, index) => (
-                             <div key={index} className="aspect-w-1 aspect-h-1 overflow-hidden rounded-xl shadow-lg border-2 border-slate-800/50">
-                                <img src={src} alt={`Style example ${index + 1}`} className="w-full h-full object-cover transition-transform duration-300 hover:scale-110" />
+            <section className="py-24 bg-slate-900">
+                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 reveal">Inspiration Gallery</h2>
+                    <p className="text-slate-400 max-w-2xl mx-auto mb-12 reveal">See how color combinations create stunning looks.</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[250px] gap-4">
+                        {galleryImages.map((img, index) => (
+                             <div key={index} className={`group relative overflow-hidden rounded-xl shadow-lg border-2 border-slate-800/50 ${img.layout} reveal`} style={{ transitionDelay: `${index * 75}ms`}}>
+                                <img src={img.src} alt={`Style example ${index + 1}`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+                                <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="font-bold text-lg">Elegant Style</p>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
+
+            {/* Final CTA Section */}
+            <section className="py-20 text-center bg-slate-800/30">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 reveal">
+                    <img src={NEW_ICON_DATA_URL} alt="Turbn Logo" className="w-16 h-16 mx-auto mb-6 rounded-full border-4 border-slate-700/50 shadow-lg" />
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4">Ready to find your perfect look?</h2>
+                    <p className="text-slate-400 max-w-xl mx-auto mb-8">Start creating your unique style combinations in just a few clicks.</p>
+                    <button
+                        onClick={onGetStarted}
+                        className="px-10 py-4 text-lg font-bold text-slate-900 bg-amber-400 rounded-full hover:bg-amber-300 focus:outline-none focus:ring-4 focus:ring-amber-400/50 transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-100 shadow-2xl animate-pulse-glow"
+                    >
+                        {t('getStarted')}
+                    </button>
+                </div>
+            </section>
         </div>
     );
 };
