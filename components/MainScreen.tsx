@@ -3,17 +3,10 @@ import React, { useState, useRef } from 'react';
 import { Translation, OutfitColors, TurbanSuggestion, Language } from '../types';
 import { getColorsFromImage, getTurbanSuggestions, generateLookFromUpload, generateSikhLook } from '../services/geminiService';
 import toast from 'react-hot-toast';
-import UploadIcon from './icons/UploadIcon';
-import PaletteIcon from './icons/PaletteIcon';
-import SparklesIcon from './icons/SparklesIcon';
+import { Upload, Palette, Sparkles, Pipette, Download, Bookmark, ArrowLeft, RotateCcw } from 'lucide-react';
 import { COMMON_HIGHLIGHTS_COLORS, COMMON_PANTS_COLORS, COMMON_SHIRT_COLORS, TRANSLATIONS } from '../constants';
 import OutfitPreview from './OutfitPreview';
-import DropperIcon from './icons/DropperIcon';
 import LoadingIndicator from './LoadingIndicator';
-import DownloadIcon from './icons/DownloadIcon';
-import BookmarkIcon from './icons/BookmarkIcon';
-import BackIcon from './icons/BackIcon';
-import RedoIcon from './icons/RedoIcon';
 
 
 interface MainScreenProps {
@@ -54,7 +47,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
             setLoadingState('suggestions');
             try {
                 const colors = await getColorsFromImage(file);
-                setOutfitColors(colors);
+                setOutfitColors({...colors, highlightsColor: null}); // Highlights not detectable from photo
                 await handleGetSuggestions(colors, true);
             } catch (error) {
                 toast.error(t('errorColorDetection'));
@@ -157,7 +150,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                          <div className="absolute inset-0 bg-cover bg-center bg-[url('https://user-gen-media-assets.s3.amazonaws.com/gemini_images/096c15f2-42c8-4796-9ea8-abb72ce55c03.png')] transition-all duration-500 ease-in-out transform group-hover:scale-110" aria-hidden="true"></div>
                          <div className="absolute inset-0 bg-slate-900/70 group-hover:bg-slate-900/50 transition-all duration-500 ease-in-out"></div>
                          <div className="relative z-10 flex flex-col items-center justify-center p-6 bg-black/20 backdrop-blur-md rounded-2xl border border-white/10">
-                             <UploadIcon className="w-16 h-16 mb-4 text-slate-300 group-hover:text-amber-400 transition-colors duration-300 transform group-hover:scale-110" />
+                             <Upload className="w-16 h-16 mb-4 text-slate-300 group-hover:text-amber-400 transition-colors duration-300 transform group-hover:scale-110" />
                              <h3 className="text-3xl font-bold text-white">{t('uploadOutfitPhoto')}</h3>
                              <p className="text-slate-300 mt-2 max-w-xs">Let AI find colors from your outfit picture.</p>
                          </div>
@@ -169,7 +162,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                          <div className="absolute inset-0 bg-cover bg-center bg-[url('https://user-gen-media-assets.s3.amazonaws.com/seedream_images/d9f1d6a9-9c9d-4164-b9ca-b8b394686dfe.png')] transition-all duration-500 ease-in-out transform group-hover:scale-110" aria-hidden="true"></div>
                          <div className="absolute inset-0 bg-slate-900/70 group-hover:bg-slate-900/50 transition-all duration-500 ease-in-out"></div>
                          <div className="relative z-10 flex flex-col items-center justify-center p-6 bg-black/20 backdrop-blur-md rounded-2xl border border-white/10">
-                             <PaletteIcon className="w-16 h-16 mb-4 text-slate-300 group-hover:text-amber-400 transition-colors duration-300 transform group-hover:scale-110" />
+                             <Palette className="w-16 h-16 mb-4 text-slate-300 group-hover:text-amber-400 transition-colors duration-300 transform group-hover:scale-110" />
                              <h3 className="text-3xl font-bold text-white">{t('pickColorsManually')}</h3>
                              <p className="text-slate-300 mt-2 max-w-xs">Select your shirt, pants, and highlight colors.</p>
                          </div>
@@ -180,7 +173,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                     {mode === 'upload' && !outfitImage && (
                         <div className="text-center animate-fade-in pt-16">
                             <button onClick={() => outfitFileRef.current?.click()} className="p-8 border-2 border-dashed border-slate-600 rounded-xl hover:border-amber-500/80 hover:bg-slate-800/50 transition group w-full max-w-md mx-auto transform hover:scale-105 active:scale-95 backdrop-blur-lg">
-                                <UploadIcon className="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
+                                <Upload className="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
                                 <h3 className="text-2xl font-semibold">{t('uploadOutfit')}</h3>
                             </button>
                             <input type="file" ref={outfitFileRef} onChange={handleFileChange} className="hidden" accept="image/*" />
@@ -211,13 +204,13 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                                 {t('shirt')}
                                             </button>
                                         </div>
-                                    </div>
+                                    </div>                                    
                                     <div className="mb-6">
                                         <label className="block text-sm font-medium text-slate-400 mb-2">{t('shirtColor')}</label>
                                         <div className="flex flex-wrap gap-3">
                                             {COMMON_SHIRT_COLORS.map(c => <ColorSwatch key={c.hex + c.name} color={c.hex} name={c.name} isSelected={outfitColors.shirtColor === c.hex} onClick={() => setOutfitColors({...outfitColors, shirtColor: c.hex})} />)}
                                             <div className="relative w-14 h-14 flex items-center justify-center rounded-full border-2 border-slate-600/50 overflow-hidden cursor-pointer bg-slate-700/50 hover:border-amber-500/80 transition-colors">
-                                                <DropperIcon className="w-8 h-8 text-slate-400" />
+                                                <Pipette className="w-8 h-8 text-slate-400" />
                                                 <input type="color" value={outfitColors.shirtColor} onChange={(e) => setOutfitColors({...outfitColors, shirtColor: e.target.value})} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" title="Custom Color" />
                                             </div>
                                         </div>
@@ -227,7 +220,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                         <div className="flex flex-wrap gap-3">
                                             {COMMON_PANTS_COLORS.map(c => <ColorSwatch key={c.hex + c.name} color={c.hex} name={c.name} isSelected={outfitColors.pantsColor === c.hex} onClick={() => setOutfitColors({...outfitColors, pantsColor: c.hex})} />)}
                                             <div className="relative w-14 h-14 flex items-center justify-center rounded-full border-2 border-slate-600/50 overflow-hidden cursor-pointer bg-slate-700/50 hover:border-amber-500/80 transition-colors">
-                                                <DropperIcon className="w-8 h-8 text-slate-400" />
+                                                <Pipette className="w-8 h-8 text-slate-400" />
                                                 <input type="color" value={outfitColors.pantsColor} onChange={(e) => setOutfitColors({...outfitColors, pantsColor: e.target.value})} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" title="Custom Color" />
                                             </div>
                                         </div>
@@ -240,7 +233,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                             </button>
                                             {COMMON_HIGHLIGHTS_COLORS.map(c => <ColorSwatch key={c.hex + c.name} color={c.hex} name={c.name} isSelected={outfitColors.highlightsColor === c.hex} onClick={() => setOutfitColors({...outfitColors, highlightsColor: c.hex})} />)}
                                             <div className="relative w-14 h-14 flex items-center justify-center rounded-full border-2 border-slate-600/50 overflow-hidden cursor-pointer bg-slate-700/50 hover:border-amber-500/80 transition-colors">
-                                                <DropperIcon className="w-8 h-8 text-slate-400" />
+                                                <Pipette className="w-8 h-8 text-slate-400" />
                                                 <input type="color" value={outfitColors.highlightsColor || '#000000'} onChange={(e) => setOutfitColors({...outfitColors, highlightsColor: e.target.value})} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" title="Custom Color" />
                                             </div>
                                         </div>
@@ -259,7 +252,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                             {/* Left Panel: Outfit Display */}
                             <div className="lg:sticky lg:top-24 space-y-4">
                                 <h3 className="text-3xl font-bold text-center">{generatedImage && mode === 'manual' ? t('lookPalette') : t('yourOutfit')}</h3>
-                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50">
+                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50 min-h-[500px] flex flex-col justify-center">
                                     {mode === 'upload' && outfitImage ? (
                                         <div className="animate-fade-in">
                                             <img src={outfitImage} alt="Uploaded outfit" className="rounded-lg w-full object-cover aspect-[3/4] mb-4 shadow-lg" />
@@ -358,19 +351,19 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                         <img src={generatedImage} alt="Generated Look" className="w-full rounded-lg aspect-[3/4] object-cover mb-4" />
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                             <button onClick={handleBackToSuggestions} className="flex flex-col items-center justify-center gap-1 p-2 bg-slate-700/50 text-slate-200 rounded-lg font-semibold hover:bg-slate-600/70 transition-transform duration-200 transform hover:scale-105">
-                                                <BackIcon className="w-6 h-6" />
+                                                <ArrowLeft className="w-6 h-6" />
                                                 <span className="text-xs font-medium">Back</span>
                                             </button>
                                             <button onClick={handleDownload} className="flex flex-col items-center justify-center gap-1 p-2 bg-blue-600/80 text-white rounded-lg font-semibold hover:bg-blue-500/90 transition-transform duration-200 transform hover:scale-105">
-                                                <DownloadIcon className="w-6 h-6" />
+                                                <Download className="w-6 h-6" />
                                                 <span className="text-xs font-medium">{t('download')}</span>
                                             </button>
                                             <button onClick={handleSave} className="flex flex-col items-center justify-center gap-1 p-2 bg-green-600/80 text-white rounded-lg font-semibold hover:bg-green-500/90 transition-transform duration-200 transform hover:scale-105">
-                                                <BookmarkIcon className="w-6 h-6" />
+                                                <Bookmark className="w-6 h-6" />
                                                 <span className="text-xs font-medium">Save</span>
                                             </button>
                                             <button onClick={() => selectedSuggestion && handleGenerateImage(selectedSuggestion.hexCode)} className="flex flex-col items-center justify-center gap-1 p-2 bg-purple-600/80 text-white rounded-lg font-semibold hover:bg-purple-500/90 transition-transform duration-200 transform hover:scale-105">
-                                                <RedoIcon className="w-6 h-6" />
+                                                <RotateCcw className="w-6 h-6" />
                                                 <span className="text-xs font-medium">Regen</span>
                                             </button>
                                         </div>
@@ -398,7 +391,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                                         onClick={() => handleGenerateImage(selectedSuggestion.hexCode)}
                                                         className="w-full mt-6 px-6 py-3 bg-amber-600 text-slate-900 rounded-lg font-bold hover:bg-amber-500 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2"
                                                     >
-                                                        <SparklesIcon className="w-5 h-5" />
+                                                        <Sparkles className="w-5 h-5" />
                                                         <span>Generate This Look</span>
                                                 </button>
                                             </div>

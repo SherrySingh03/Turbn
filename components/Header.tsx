@@ -1,6 +1,6 @@
 import React from 'react';
 import { Language, Translation } from '../types';
-import BookmarkIcon from './icons/BookmarkIcon';
+import { Bookmark } from 'lucide-react';
 
 interface HeaderProps {
     language: Language;
@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, t, onHomeClick, 
                 </button>
                 <div className="flex items-center gap-4">
                      <button onClick={onSavedClick} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-700/50 border border-slate-600 text-slate-200 hover:bg-slate-600/70 transition-colors font-semibold" aria-label={t('savedLooks')}>
-                        <BookmarkIcon className="w-5 h-5" />
+                        <Bookmark className="w-5 h-5" />
                         <span className="hidden sm:inline">{t('savedLooks')}</span>
                     </button>
                     <div className="relative">

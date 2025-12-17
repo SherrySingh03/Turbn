@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Translation } from '../types';
-import TrashIcon from './icons/TrashIcon';
+import { Trash2 } from 'lucide-react';
 
 const SavedLooksScreen: React.FC<{ t: (key: keyof Translation) => string; }> = ({ t }) => {
     const [looks, setLooks] = useState<{ image: string; timestamp: number }[]>([]);
@@ -46,7 +46,7 @@ const SavedLooksScreen: React.FC<{ t: (key: keyof Translation) => string; }> = (
                                     aria-label={t('deleteLook')}
                                     title={t('deleteLook')}
                                 >
-                                    <TrashIcon className="w-5 h-5" />
+                                    <Trash2 className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
