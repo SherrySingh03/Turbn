@@ -15,7 +15,10 @@ const fileToGenerativePart = async (file: Blob) => {
         reader.readAsDataURL(file);
     });
     return {
-        inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
+        inlineData: { 
+            data: await base64EncodedDataPromise, 
+            mimeType: file.type || 'image/jpeg' 
+        },
     };
 };
 
@@ -24,14 +27,12 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
     
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: [
-            {
-                parts: [
-                    { text: "Analyze the clothing in this image. Identify the primary color of the top and the pants. Also, classify the top as either 'tshirt' or 'shirt'. A 'shirt' has a visible collar, a 'tshirt' does not. Additionally, identify a prominent highlight, accent, or logo color on the top, if one exists. If no distinct highlight color is present, omit the 'highlightsColor' key from the JSON object. Provide the result as a JSON object with keys 'shirtColor', 'pantsColor', 'topType', and optionally 'highlightsColor', containing their hex color codes and the classification respectively." },
-                    imagePart
-                ]
-            }
-        ],
+        contents: {
+            parts: [
+                { text: "Analyze the clothing in this image. Identify the primary color of the top and the pants. Also, classify the top as either 'tshirt' or 'shirt'. A 'shirt' has a visible collar, a 'tshirt' does not. Additionally, identify a prominent highlight, accent, or logo color on the top, if one exists. If no distinct highlight color is present, omit the 'highlightsColor' key from the JSON object. Provide the result as a JSON object with keys 'shirtColor', 'pantsColor', 'topType', and optionally 'highlightsColor', containing their hex color codes and the classification respectively." },
+                imagePart
+            ]
+        },
         config: {
             responseMimeType: "application/json",
             responseSchema: {
@@ -47,8 +48,9 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
         }
     });
 
-    const text = response.text.trim();
-    return JSON.parse(text);
+    const text = response.text;
+    if (!text) throw new Error("No response from AI");
+    return JSON.parse(text.trim());
 };
 
 
@@ -78,7 +80,9 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
 
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: prompt,
+        contents: {
+            parts: [{ text: prompt }]
+        },
         config: {
             responseMimeType: "application/json",
             responseSchema: {
@@ -97,8 +101,9 @@ export const getTurbanSuggestions = async (colors: OutfitColors): Promise<Turban
         }
     });
 
-    const text = response.text.trim();
-    return JSON.parse(text);
+    const text = response.text;
+    if (!text) throw new Error("No response from AI");
+    return JSON.parse(text.trim());
 };
 
 export const generateLookFromUpload = async (file: Blob, newColor: string): Promise<string> => {
