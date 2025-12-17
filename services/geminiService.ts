@@ -27,7 +27,7 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
         contents: [
             {
                 parts: [
-                    { text: "Analyze the clothing in this image. Identify the primary color of the shirt and the pants. Ignore any logos or graphics. Provide the result as a JSON object with keys 'shirtColor' and 'pantsColor', containing their hex color codes." },
+                    { text: "Analyze the clothing in this image. Identify the primary color of the top and the pants. Also, classify the top as either 'tshirt' or 'shirt'. A 'shirt' has a visible collar, a 'tshirt' does not. Additionally, identify a prominent highlight, accent, or logo color on the top, if one exists. If no distinct highlight color is present, omit the 'highlightsColor' key from the JSON object. Provide the result as a JSON object with keys 'shirtColor', 'pantsColor', 'topType', and optionally 'highlightsColor', containing their hex color codes and the classification respectively." },
                     imagePart
                 ]
             }
@@ -38,9 +38,11 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
                 type: Type.OBJECT,
                 properties: {
                     shirtColor: { type: Type.STRING },
-                    pantsColor: { type: Type.STRING }
+                    pantsColor: { type: Type.STRING },
+                    topType: { type: Type.STRING, enum: ['tshirt', 'shirt'] },
+                    highlightsColor: { type: Type.STRING }
                 },
-                required: ["shirtColor", "pantsColor"]
+                required: ["shirtColor", "pantsColor", "topType"]
             }
         }
     });
@@ -52,17 +54,25 @@ export const getColorsFromImage = async (file: File): Promise<OutfitColors> => {
 
 export const getTurbanSuggestions = async (colors: OutfitColors): Promise<TurbanSuggestion[]> => {
     const highlightsPromptPart = colors.highlightsColor
-        ? `The shirt also has an accent highlight color with the hex code ${colors.highlightsColor}.`
+        ? `The ${colors.topType} also has an accent highlight color with the hex code ${colors.highlightsColor}.`
         : '';
 
     const prompt = `
-        An outfit consists of a shirt with the hex color ${colors.shirtColor} and pants with the hex color ${colors.pantsColor}.
+        Act as an expert stylist specializing in modern Sikh men's fashion.
+        A client has an outfit consisting of a ${colors.topType} (hex: ${colors.shirtColor}) and pants (hex: ${colors.pantsColor}).
         ${highlightsPromptPart}
-        Based on this complete outfit, suggest the top 4 best matching turban colors using color theory. The suggestions must harmonize with all colors.
-        Rank them from 1 to 4 (best to worst).
-        For each suggestion, provide a concise, persuasive, and stylish reason (max 15 words) for why it's a great match. The tone should be like a fashion advisor.
-        If a highlight color is present, it is MANDATORY that your reasoning explicitly references how the suggested turban color complements or contrasts with the highlight color.
-        Examples of reasons: "Creates a bold, high-contrast statement.", "An elegant monochromatic look.", "Picks up the gold highlights perfectly.", "Subtly complements the crimson accents."
+        Your task is to recommend the top 4 turban colors that are not only theoretically sound but are also practical, elegant, and suitable for real-world social occasions (e.g., gatherings, work, casual outings). The suggestions should be sophisticated and culturally appropriate.
+
+        Please provide your recommendations ranked from 1 to 4 (best to worst).
+        For each suggestion, provide a concise (max 20 words), persuasive reason that explains the choice from a real-world style perspective. The tone should be confident and reassuring, like a personal stylist.
+        If a highlight color is present, it is MANDATORY that your reasoning explicitly references how the suggested turban color interacts with it.
+
+        Good Reason Examples:
+        - "A timeless, versatile choice that exudes confidence."
+        - "Creates a sophisticated, earthy palette perfect for daytime events."
+        - "This bold color beautifully picks up the ${colors.highlightsColor || 'gold'} highlights, making the whole look pop."
+        - "Offers a subtle, modern contrast that is stylish yet understated."
+
         Return the result as a JSON array of objects, where each object has 'rank', 'colorName', 'hexCode', and 'reason' properties.
     `;
 
@@ -131,9 +141,11 @@ export const generateSikhLook = async (colors: OutfitColors, turbanColor: string
     ];
     const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     
+    const shirtTypeDescription = colors.topType === 'shirt' ? 'a formal shirt with a collar' : 'a casual t-shirt';
+
     const shirtDescription = colors.highlightsColor
-        ? `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}, featuring a small, elegant embroidered emblem on the left chest, with matching embroidery on the collar points and sleeve cuffs, all in the hex color ${colors.highlightsColor}`
-        : `a plain, solid-colored t-shirt with the hex color ${colors.shirtColor}`;
+        ? `a plain, solid-colored ${shirtTypeDescription} with the hex color ${colors.shirtColor}, featuring a single, small, and discreet embroidered emblem on the left chest in the hex color ${colors.highlightsColor}`
+        : `a plain, solid-colored ${shirtTypeDescription} with the hex color ${colors.shirtColor}`;
 
 
     const prompt = `

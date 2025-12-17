@@ -34,7 +34,7 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ color, name, isSelected, onCl
 
 const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
     const [mode, setMode] = useState<'upload' | 'manual' | null>(null);
-    const [outfitColors, setOutfitColors] = useState<OutfitColors>({ shirtColor: '#FFFFFF', pantsColor: '#1E3A8A', highlightsColor: null });
+    const [outfitColors, setOutfitColors] = useState<OutfitColors>({ shirtColor: '#FFFFFF', pantsColor: '#1E3A8A', topType: 'tshirt', highlightsColor: null });
     const [suggestions, setSuggestions] = useState<TurbanSuggestion[]>([]);
     const [selectedSuggestion, setSelectedSuggestion] = useState<TurbanSuggestion | null>(null);
     const [loadingState, setLoadingState] = useState<'suggestions' | 'image' | null>(null);
@@ -54,7 +54,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
             setLoadingState('suggestions');
             try {
                 const colors = await getColorsFromImage(file);
-                setOutfitColors({...colors, highlightsColor: null}); // Highlights not detectable from photo
+                setOutfitColors(colors);
                 await handleGetSuggestions(colors, true);
             } catch (error) {
                 toast.error(t('errorColorDetection'));
@@ -132,7 +132,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
 
     const reset = () => {
         setMode(null);
-        setOutfitColors({ shirtColor: '#FFFFFF', pantsColor: '#1E3A8A', highlightsColor: null });
+        setOutfitColors({ shirtColor: '#FFFFFF', pantsColor: '#1E3A8A', topType: 'tshirt', highlightsColor: null });
         setSuggestions([]);
         setSelectedSuggestion(null);
         setOutfitImage(null);
@@ -191,10 +191,27 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                         <div key="manual-mode" className="bg-slate-800/50 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-xl p-6 sm:p-8 animate-fade-in">
                             <div className="grid md:grid-cols-2 gap-8 items-start">
                                 <div className="md:hidden p-4 rounded-lg flex flex-col items-center justify-center">
-                                    <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
+                                    <OutfitPreview topType={outfitColors.topType} shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
                                 </div>
                                 <div>
                                     <h3 className="text-3xl font-semibold mb-6 text-center">{t('pickColors')}</h3>
+                                    <div className="mb-6">
+                                        <label className="block text-sm font-medium text-slate-400 mb-2">{t('topType')}</label>
+                                        <div className="grid grid-cols-2 gap-2 bg-slate-700/50 p-1 rounded-lg border border-slate-600/50">
+                                            <button 
+                                                onClick={() => setOutfitColors({...outfitColors, topType: 'tshirt'})}
+                                                className={`py-2 text-sm font-semibold rounded-md transition-colors ${outfitColors.topType === 'tshirt' ? 'bg-amber-500 text-slate-900 shadow' : 'text-slate-300 hover:bg-slate-600/50'}`}
+                                            >
+                                                {t('tshirt')}
+                                            </button>
+                                            <button 
+                                                onClick={() => setOutfitColors({...outfitColors, topType: 'shirt'})}
+                                                className={`py-2 text-sm font-semibold rounded-md transition-colors ${outfitColors.topType === 'shirt' ? 'bg-amber-500 text-slate-900 shadow' : 'text-slate-300 hover:bg-slate-600/50'}`}
+                                            >
+                                                {t('shirt')}
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div className="mb-6">
                                         <label className="block text-sm font-medium text-slate-400 mb-2">{t('shirtColor')}</label>
                                         <div className="flex flex-wrap gap-3">
@@ -231,7 +248,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                     <button onClick={() => handleGetSuggestions(outfitColors)} disabled={!!loadingState} className="w-full mt-8 px-6 py-3 bg-amber-600 text-slate-900 rounded-lg font-semibold hover:bg-amber-500 transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95 disabled:bg-amber-800/70 disabled:cursor-not-allowed shadow-lg shadow-amber-500/20">{t('getSuggestions')}</button>
                                 </div>
                                 <div className="hidden md:flex p-6 rounded-lg flex-col items-center justify-center">
-                                    <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
+                                    <OutfitPreview topType={outfitColors.topType} shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
                                 </div>
                             </div>
                         </div>
@@ -242,9 +259,43 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                             {/* Left Panel: Outfit Display */}
                             <div className="lg:sticky lg:top-24 space-y-4">
                                 <h3 className="text-3xl font-bold text-center">{generatedImage && mode === 'manual' ? t('lookPalette') : t('yourOutfit')}</h3>
-                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50 min-h-[500px] flex flex-col justify-center">
+                                <div className="p-4 rounded-xl bg-slate-800/30 backdrop-blur-lg border border-slate-700/50">
                                     {mode === 'upload' && outfitImage ? (
-                                        <img src={outfitImage} alt="Uploaded outfit" className="rounded-lg w-full object-cover aspect-[3/4]"/>
+                                        <div className="animate-fade-in">
+                                            <img src={outfitImage} alt="Uploaded outfit" className="rounded-lg w-full object-cover aspect-[3/4] mb-4 shadow-lg" />
+                                            <h4 className="text-lg font-semibold text-slate-300 mb-2">AI Color Analysis:</h4>
+                                            <div className="space-y-2">
+                                                {/* Top Type & Color */}
+                                                <div className="flex items-center gap-3 p-2 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                    <div className="w-8 h-8 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.shirtColor }}></div>
+                                                    <div className="flex-grow">
+                                                        <p className="font-semibold text-sm capitalize">{t(outfitColors.topType)}</p>
+                                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{t('shirtColor')}</p>
+                                                    </div>
+                                                    <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.shirtColor}</p>
+                                                </div>
+                                                {/* Pants Color */}
+                                                <div className="flex items-center gap-3 p-2 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                    <div className="w-8 h-8 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.pantsColor }}></div>
+                                                    <div className="flex-grow">
+                                                        <p className="font-semibold text-sm">{t('pantsColor')}</p>
+                                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
+                                                    </div>
+                                                    <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.pantsColor}</p>
+                                                </div>
+                                                {/* Highlights Color */}
+                                                {outfitColors.highlightsColor && (
+                                                    <div className="flex items-center gap-3 p-2 bg-slate-900/40 rounded-lg border border-slate-700/50">
+                                                        <div className="w-8 h-8 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.highlightsColor }}></div>
+                                                        <div className="flex-grow">
+                                                            <p className="font-semibold text-sm">{t('highlightsColor').replace(' (Optional)', '')}</p>
+                                                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
+                                                        </div>
+                                                        <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.highlightsColor}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     ) : generatedImage && selectedSuggestion ? (
                                         <div className="animate-fade-in p-2 sm:p-4">
                                             <div className="space-y-4">
@@ -261,7 +312,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                                 <div className="flex items-center gap-4 p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
                                                     <div className="w-10 h-10 rounded-md shadow-inner flex-shrink-0" style={{ backgroundColor: outfitColors.shirtColor }}></div>
                                                     <div className="flex-grow">
-                                                        <p className="font-semibold text-base">Shirt Color</p>
+                                                        <p className="font-semibold text-base">{outfitColors.topType === 'shirt' ? t('shirt') : t('tshirt')}</p>
                                                         <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Outfit</p>
                                                     </div>
                                                     <p className="ml-auto text-sm font-mono text-slate-500">{outfitColors.shirtColor}</p>
@@ -289,7 +340,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ t, language }) => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <OutfitPreview shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
+                                        <OutfitPreview topType={outfitColors.topType} shirtColor={outfitColors.shirtColor} pantsColor={outfitColors.pantsColor} highlightsColor={outfitColors.highlightsColor} />
                                     )}
                                 </div>
                                 <div className="flex justify-center gap-2">

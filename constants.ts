@@ -54,6 +54,9 @@ export const TRANSLATIONS: Record<Language, Translation> = {
             "Almost ready for the spotlight!",
         ],
         lookPalette: "Your Look's Palette",
+        topType: 'Top Type',
+        tshirt: 'T-Shirt',
+        shirt: 'Shirt',
     },
     pa: {
         appName: 'Turbn',
@@ -108,6 +111,9 @@ export const TRANSLATIONS: Record<Language, Translation> = {
             "ਸਪਾਟਲਾਈਟ ਲਈ ਲਗਭਗ ਤਿਆਰ!",
         ],
         lookPalette: "ਤੁਹਾਡੇ ਲੁੱਕ ਦੀ ਪੈਲੇਟ",
+        topType: 'ਸਿਖਰ ਦੀ ਕਿਸਮ',
+        tshirt: 'ਟੀ-ਸ਼ਰਟ',
+        shirt: 'ਕਮੀਜ਼',
     },
 };
 

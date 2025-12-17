@@ -1,4 +1,5 @@
 export type Language = 'en' | 'pa';
+export type TopType = 'tshirt' | 'shirt';
 
 export interface Translation {
     appName: string;
@@ -42,11 +43,15 @@ export interface Translation {
     generatingLookTitle: string;
     generatingLookMessages: string[];
     lookPalette: string;
+    topType: string;
+    tshirt: string;
+    shirt: string;
 }
 
 export interface OutfitColors {
     shirtColor: string;
     pantsColor: string;
+    topType: TopType;
     highlightsColor?: string | null;
 }
 
