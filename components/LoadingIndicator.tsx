@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
 
 interface LoadingIndicatorProps {
     title: string;
     messages: string[];
+    statusLine?: string;
 }
 
-const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ title, messages }) => {
+const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ title, messages, statusLine }) => {
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
     useEffect(() => {
@@ -16,25 +18,33 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ title, messages }) 
     }, [messages.length]);
 
     return (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/50 backdrop-blur-sm text-center animate-fade-in p-4">
-            <div className="bg-slate-800/50 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-xl p-8 sm:p-12">
-                <div className="relative w-24 h-24 mb-6 mx-auto">
-                    <div className="absolute inset-0 border-4 border-amber-500 rounded-full animate-ping opacity-60"></div>
-                    <div className="absolute inset-2 border-4 border-slate-700/50 rounded-full"></div>
-                     <div className="absolute inset-0 flex items-center justify-center text-amber-400">
-                        <svg className="w-12 h-12 animate-spin" style={{ animationDuration: '2s'}} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M50 10C27.9086 10 10 27.9086 10 50C10 72.0914 27.9086 90 50 90" stroke="currentColor" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"/>
-                            <path d="M50 10C72.0914 10 90 27.9086 90 50C90 72.0914 72.0914 90 50 90" stroke="currentColor" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="5 15"/>
-                        </svg>
-                     </div>
-                </div>
-                <h2 className="text-2xl font-bold text-slate-100 mb-2">{title}</h2>
-                <div className="h-6">
-                    <p className="text-slate-400 text-lg transition-all duration-500 ease-in-out animate-fade-in" key={currentMessageIndex}>
-                        {messages[currentMessageIndex]}
-                    </p>
+        <div className="fixed inset-0 z-[100] flex flex-col bg-surface/80 backdrop-blur-md animate-fade-in">
+            <div className="flex-1 grid place-items-center p-6">
+                <div className="rounded-[var(--radius-card)] glass-panel ghost-border max-w-sm w-full p-8 text-center shadow-ambient">
+                    <div className="relative w-20 h-20 mb-6 mx-auto">
+                        <div className="absolute inset-0 border-[3px] border-primary/50 rounded-full animate-ping opacity-40" />
+                        <div className="absolute inset-2 border-2 border-surface-container-highest rounded-full" />
+                        <div className="absolute inset-0 flex items-center justify-center text-primary">
+                            <Sparkles className="w-10 h-10 animate-spin" style={{ animationDuration: '2.5s' }} />
+                        </div>
+                    </div>
+                    <h2 className="font-display text-xl text-on-surface mb-3">{title}</h2>
+                    <div className="min-h-[1.5rem]">
+                        <p
+                            className="text-on-surface-muted text-sm transition-all duration-500"
+                            key={currentMessageIndex}
+                        >
+                            {messages[currentMessageIndex]}
+                        </p>
+                    </div>
                 </div>
             </div>
+            {statusLine && (
+                <div className="shrink-0 flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-low/90 text-on-surface-muted text-xs border-t border-outline-variant/10 safe-area-pb">
+                    <Sparkles className="w-3.5 h-3.5 text-tertiary" />
+                    <span>{statusLine}</span>
+                </div>
+            )}
         </div>
     );
 };
